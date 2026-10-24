@@ -35,7 +35,7 @@
     <section id="hero" class="hero">
       <p class="lead"><span class="wd" style="--k:0">Productor</span> <span class="wd" style="--k:1">musical</span> <span class="wd" style="--k:2">internacional.</span> <span class="wd" style="--k:3">Beats,</span> <span class="wd" style="--k:4">mezcla</span> <span class="wd" style="--k:5">y</span> <span class="wd" style="--k:6">mastering</span> <span class="wd" style="--k:7">desde</span> <span class="wd" style="--k:8">Valencia.</span></p>
       <div class="cta">
-        <button class="pill ghost" id="listen" type="button" aria-pressed="false"><span id="listenLbl">Escuchar</span></button>
+        <button class="pill ghost listen-btn" type="button" aria-pressed="false"><span class="listen-lbl">Escuchar</span></button>
         <a class="pill" href="#sound">Explorar la música <span aria-hidden="true">↓</span></a>
         <p class="hint">scroll para explorar</p>
       </div>
@@ -47,8 +47,51 @@
       <h1 class="wm" aria-label="SIVLA"><span aria-hidden="true"><i style="--k:0">S</i><i style="--k:1">I</i><i style="--k:2">V</i><i style="--k:3">L</i><i style="--k:4">A</i></span></h1>
     </section>
 
-    <section id="sound" class="ph"><p class="tag">Sound</p><h2>Su universo sonoro</h2><p>Esta sección se construye en la Fase 4.</p></section>
-    <section id="works" class="ph"><p class="tag">Selected Works</p><h2>Producciones seleccionadas</h2><p>Esta sección se construye en la Fase 4.</p></section>
+    <section id="sound" class="sound" aria-labelledby="sound-h">
+      <div class="stage">
+        <div class="stage-top"><p class="tag">Sound</p><h2 id="sound-h" class="sr">Su universo sonoro</h2>
+          <button class="pill ghost listen-btn" type="button" aria-pressed="false"><span class="listen-lbl">Escuchar</span></button>
+        </div>
+        <div class="phrases">
+          <p class="phrase" data-from="0.10" data-to="0.34">145 créditos entre producción, mezcla, ingeniería, mastering y composición.</p>
+          <p class="phrase" data-from="0.34" data-to="0.60">De los beats al master final: un solo oído para toda la canción.</p>
+          <p class="phrase" data-from="0.60" data-to="1.01">Con Jay Wheeler, Oliwi, Afro Nigga y Mari La Carajita, entre otros 256 colaboradores.</p>
+        </div>
+        <p class="hint soundnote" id="soundNote">Las barras se mueven con un pulso de reposo. Pulsa "Escuchar" para que sigan el audio.</p>
+      </div>
+    </section>
+
+    <section id="works" class="works" aria-labelledby="works-h">
+      <p class="tag">Selected Works</p>
+      <h2 id="works-h">Producciones seleccionadas</h2>
+      <p class="sub">Créditos reales del perfil de Siv-La en Muso. Las portadas son provisionales hasta recibir las originales.</p>
+      <ul class="worklist" id="worklist">
+      <li><a class="work" href="https://muso.ai/track/e29e5c91-039a-493c-a4af-44567e396dd2" target="_blank" rel="noopener" data-i="0" aria-label="Historia, Jay Wheeler, 2024. Abrir en Muso (nueva pestaña)">
+        <span class="wt">Historia</span><span class="wm2">producer<br>Jay Wheeler</span><span class="wy">2024</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      <li><a class="work" href="https://muso.ai/track/34f6696c-32a1-4c48-adde-b3e42033a6f2" target="_blank" rel="noopener" data-i="1" aria-label="Catalina, Oliwi • Afro Nigga • Teo, 2025. Abrir en Muso (nueva pestaña)">
+        <span class="wt">Catalina</span><span class="wm2">producer • engineer • mixing<br>Oliwi • Afro Nigga • Teo</span><span class="wy">2025</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      <li><a class="work" href="https://muso.ai/track/cf167121-6ae7-4d3f-9d19-c862eed010ba" target="_blank" rel="noopener" data-i="2" aria-label="Dividí, Oliwi • Afro Nigga, 2025. Abrir en Muso (nueva pestaña)">
+        <span class="wt">Dividí</span><span class="wm2">producer<br>Oliwi • Afro Nigga</span><span class="wy">2025</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      <li><a class="work" href="https://muso.ai/track/22338313-ac9d-4814-87ed-c2866c1d246f" target="_blank" rel="noopener" data-i="3" aria-label="De locos, Mari La Carajita, 2026. Abrir en Muso (nueva pestaña)">
+        <span class="wt">De locos</span><span class="wm2">producer<br>Mari La Carajita</span><span class="wy">2026</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      <li><a class="work" href="https://muso.ai/track/81529b39-c86f-4629-b910-28a4fdac6bad" target="_blank" rel="noopener" data-i="4" aria-label="Dándote, Sammer • Came Beats, 2026. Abrir en Muso (nueva pestaña)">
+        <span class="wt">Dándote</span><span class="wm2">producer<br>Sammer • Came Beats</span><span class="wy">2026</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      <li><a class="work" href="https://muso.ai/track/63a707bb-efc1-40db-b82a-9cee8872a0ca" target="_blank" rel="noopener" data-i="5" aria-label="Pida la bendición, Mari La Carajita • Manira, 2026. Abrir en Muso (nueva pestaña)">
+        <span class="wt">Pida la bendición</span><span class="wm2">producer<br>Mari La Carajita • Manira</span><span class="wy">2026</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      <li><a class="work" href="https://muso.ai/track/8a7b2b9d-9fa8-4f9a-a216-3971ee636093" target="_blank" rel="noopener" data-i="6" aria-label="Primer Amor, Kobi Cantillo • NOREH • Erick Brian, 2026. Abrir en Muso (nueva pestaña)">
+        <span class="wt">Primer Amor</span><span class="wm2">composer<br>Kobi Cantillo • NOREH • Erick Brian</span><span class="wy">2026</span><span class="wth" aria-hidden="true"></span>
+      </a></li>
+      </ul>
+      <p class="more"><a class="pill" href="https://muso.ai/profile/863d3b69-e9e0-4757-b65e-e7e4a6d9a6f2" target="_blank" rel="noopener">Ver los 145 créditos en Muso <span aria-hidden="true">↗</span></a></p>
+    </section>
+    <div id="peek" aria-hidden="true"></div>
+
     <section id="about" class="ph"><p class="tag">About</p><h2>Sobre SIVLA</h2><p>Esta sección se construye en la Fase 5.</p></section>
     <section id="contact" class="ph night"><p class="tag">Contact</p><h2>Colaboremos</h2><p>Esta sección se construye en la Fase 5.</p></section>
   </main>

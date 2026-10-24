@@ -1,6 +1,6 @@
 # SIVLA · Landing
 
-Landing de SIVLA, productor musical. **Estado: Fases 2 y 3: hero 3D "El disco líquido" con audio reactivo.** El resto de secciones son marcadores (Fases 4 y 5).
+Landing de SIVLA, productor musical. **Estado: Fases 2, 3 y 4: hero 3D "El disco líquido", audio reactivo y secciones Sound y Selected Works.** About y Contact son marcadores (Fase 5).
 Especificación en `docs/` (dirección creativa, arquitectura, auditoría de referencia y hoja de ruta).
 
 ## Qué hay ahora
@@ -17,6 +17,12 @@ Especificación en `docs/` (dirección creativa, arquitectura, auditoría de ref
 1. Copia los previews autorizados (30–60 s, MP3/OGG, ≤ 1,5 MB) a `public/audio/`.
 2. Añádelos en `src/audio/tracks.ts`. Con la lista vacía se usa el beat de demostración y la interfaz lo dice.
 Spotify, YouTube y Muso no entregan audio analizable; hacen falta archivos propios.
+
+## Sound y Selected Works (Fase 4)
+- **Sound:** al hacer scroll, el disco viaja al centro, se pone de frente y la cámara **cruza su agujero**; al otro lado el disco se descompone en 48 barras cromadas que siguen el audio (o un pulso de reposo procedural si no suena nada). Tres frases aparecen una a una; el texto es un borrador a aprobar por el propietario.
+- **Selected Works:** los 7 créditos reales de Muso con roles, artistas y año, cada uno enlazado a su canción. Al pasar el cursor aparece una portada que lo sigue (en táctil, miniatura fija).
+- **Portadas:** son **provisionales y originales** (anillos con el título y la leyenda "portada pendiente"). Se sustituirán por las portadas oficiales cuando se aporten los archivos.
+- Con "reducir movimiento" o sin WebGL, Sound se muestra como una sección normal con las tres frases visibles.
 
 ## Ejecutar (Windows 11, macOS o Linux)
 Requisitos: Node.js 20 o superior y un navegador con WebGL 2.

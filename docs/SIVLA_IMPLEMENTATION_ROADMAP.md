@@ -33,7 +33,7 @@ Código a reutilizar de `sivla-3d` (copiado, no enlazado): `Engine`, `Input`, `Q
 **Estado:** `AudioEngine`, `bands.ts`, detector de bombo, botón, volumen y barras implementados; verificado con un beat sintético original. Pendiente: probar con los temas reales cuando haya audio autorizado.
 **Aceptación:** las bandas siguen el audio de prueba; sin audio, el botón desaparece o muestra un mensaje honesto; el audio nunca arranca solo.
 
-### Fase 4 · Secciones Sound y Selected Works
+### Fase 4 · Secciones Sound y Selected Works — **hecha (portadas provisionales)**
 **Entrega:** transición de cámara por el agujero del disco, descomposición en barras, lista de 7 créditos con portada flotante/miniatura táctil, enlaces a Muso.
 **Requiere:** portadas originales (WebP); hasta entonces, marcadores de posición con el título.
 

@@ -28,3 +28,12 @@ test('HTML: wordmark accesible, saltar al contenido y plan B', () => {
   assert.ok(html.includes('id="fallback"'));
   assert.ok(html.includes('<canvas id="gl" aria-hidden="true">'));
 });
+
+test('Fase 4: secciones Sound y Works con créditos reales y portadas provisionales', () => {
+  const html = readFileSync('index.html', 'utf8');
+  assert.ok(html.includes('id="sound"') && html.includes('id="works"'));
+  const links = html.match(/https:\/\/muso\.ai\/track\//g) ?? [];
+  assert.equal(links.length, 7, 'deben ser 7 créditos con enlace a Muso');
+  const works = readFileSync('src/app/works.ts', 'utf8');
+  assert.ok(works.includes('PORTADA PENDIENTE'), 'las portadas provisionales deben declararse como tales');
+});

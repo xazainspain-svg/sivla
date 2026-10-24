@@ -23,20 +23,24 @@ export class Engine {
   private pageVisible = !document.hidden;
   private io: IntersectionObserver;
 
-  constructor(private canvas: HTMLCanvasElement, private opts: EngineOptions, observe: Element) {
+  constructor(private canvas: HTMLCanvasElement, private opts: EngineOptions, observe: Element[]) {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.applyPixelRatio();
-    this.scene = new DiscScene(this.quality.level, opts.still);
+    this.scene = new DiscScene(this.renderer, this.quality.level, opts.still);
     this.resize();
     window.addEventListener('resize', this.resize);
     document.addEventListener('visibilitychange', this.onVis);
     canvas.addEventListener('webglcontextlost', this.onLost);
     canvas.addEventListener('webglcontextrestored', this.onRestored);
     // el render solo corre mientras el hero es visible
-    this.io = new IntersectionObserver((e) => { this.visible = e[0]?.isIntersecting ?? true; }, { rootMargin: '200px' });
-    this.io.observe(observe);
+    const seen = new Set<Element>();
+    this.io = new IntersectionObserver((entries) => {
+      for (const en of entries) { if (en.isIntersecting) seen.add(en.target); else seen.delete(en.target); }
+      this.visible = seen.size > 0;
+    }, { rootMargin: '200px' });
+    observe.forEach((el) => this.io.observe(el));
   }
 
   private applyPixelRatio(): void {
@@ -86,7 +90,7 @@ export class Engine {
   private onLost = (e: Event): void => { e.preventDefault(); this.running = false; cancelAnimationFrame(this.raf); };
   private onRestored = (): void => {
     this.scene.dispose();
-    this.scene = new DiscScene(this.quality.level, this.opts.still);
+    this.scene = new DiscScene(this.renderer, this.quality.level, this.opts.still);
     this.scene.resize(window.innerWidth, window.innerHeight);
     this.scene.startIntro();
     this.start();
