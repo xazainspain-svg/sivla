@@ -1,14 +1,13 @@
 import './styles/main.css';
 import { Engine } from './engine/engine';
 import { hasWebGL2, prefersReducedMotion } from './app/capabilities';
-import { easeOutCubic, damp, clamp } from './engine/math';
+import { easeOutCubic, damp } from './engine/math';
 import { tween, wait } from './animation/timeline';
 import { AudioEngine } from './audio/AudioEngine';
 import { TRACKS } from './audio/tracks';
 import { journeyProgress, stickyProgress, windowOpacity } from './app/scroll';
 import { WORKS, placeholderCover } from './app/works';
 import { MosaicScene } from './scenes/MosaicScene';
-import { MetalScene } from './scenes/MetalScene';
 import { setupPress } from './press/press';
 import { beat } from './app/beat';
 
@@ -187,38 +186,6 @@ function setupMosaic(): void {
   }), { rootMargin: '200px 0px' }).observe(canvas);
 }
 
-/** Cápsula de cristal líquido: las filas de SIVLA se desplazan en sentidos opuestos con el scroll. */
-function setupGlass(): void {
-  const cap = document.getElementById('glass');
-  if (!cap || prefersReducedMotion()) return;
-  const rows = Array.from(cap.querySelectorAll<HTMLElement>('.gl-row'));
-  rows.forEach((r) => r.style.setProperty('--dir', r.dataset.dir ?? '1'));
-  let on = false;
-  let ticking = false;
-  let metal: MetalScene | null = null;
-  const canvas = document.getElementById('metalGl') as HTMLCanvasElement | null;
-  if (canvas && hasWebGL2()) {
-    try {
-      metal = new MetalScene(canvas);
-      cap.classList.add('gl-on');
-      metal.resize();
-      canvas.addEventListener('pointermove', (e) => { const r = canvas.getBoundingClientRect(); metal?.pointer(e.clientX - r.left, e.clientY - r.top, r.width, r.height); });
-      canvas.addEventListener('pointerleave', () => metal?.leave());
-      window.addEventListener('resize', () => metal?.resize());
-      void document.fonts?.ready.then(() => { metal?.rebuild(); });
-    } catch { metal = null; cap.classList.remove('gl-on'); }
-  }
-  const apply = (): void => {
-    ticking = false;
-    const r = cap.getBoundingClientRect();
-    const p = clamp((window.innerHeight - r.top) / (window.innerHeight + r.height), 0, 1);
-    cap.style.setProperty('--p', p.toFixed(4));
-    metal?.setScroll(p);
-  };
-  new IntersectionObserver((es) => es.forEach((e) => { on = e.isIntersecting; if (on) { apply(); metal?.start(); } else metal?.stop(); })).observe(cap);
-  window.addEventListener('scroll', () => { if (on && !ticking) { ticking = true; requestAnimationFrame(apply); } }, { passive: true });
-}
-
 /** Contact: tarifas que preseleccionan el servicio y formulario honesto (no hay destino real todavía). */
 function setupContact(): void {
   const form = document.getElementById('form') as HTMLFormElement;
@@ -250,7 +217,6 @@ async function boot(): Promise<void> {
   setupNav();
   setupAbout();
   setupMosaic();
-  setupGlass();
   setupPress();
   setupContact();
 

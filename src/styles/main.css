@@ -204,18 +204,3 @@ body.static .mosaic{display:none}
 .svc .pill{align-self:flex-start;border:0;cursor:pointer}
 .svc-note{margin:22px 0 0;font:400 .85rem var(--f);color:var(--mut)}
 @media (max-width:860px){.svc-grid{grid-template-columns:1fr}}
-
-/* Cápsula de cristal líquido */
-.glass-cap{position:relative;z-index:2;margin:clamp(24px,5vw,64px) max(12px,2vw);height:clamp(420px,70vh,640px);border-radius:clamp(40px,8vw,120px);overflow:hidden;background:linear-gradient(135deg,#0b1030,#18246b 55%,#2f1d5e);isolation:isolate;box-shadow:0 30px 80px rgba(14,18,48,.25)}
-.glass-blobs i{position:absolute;border-radius:50%;filter:blur(40px);opacity:.9;animation:blob 14s ease-in-out infinite alternate}
-.glass-blobs i:nth-child(1){width:46%;aspect-ratio:1;left:-8%;top:-20%;background:#2f5bee}
-.glass-blobs i:nth-child(2){width:40%;aspect-ratio:1;right:-6%;top:30%;background:#e08a45;animation-delay:-5s}
-.glass-blobs i:nth-child(3){width:34%;aspect-ratio:1;left:35%;bottom:-25%;background:#7b5cff;animation-delay:-9s}
-@keyframes blob{to{transform:translate(8%,10%) scale(1.15)}}
-.glass-rows{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;filter:url(#liquid)}
-.gl-row{display:flex;gap:.35em;white-space:nowrap;width:max-content;font:200 clamp(4rem,12vw,11rem)/.92 var(--f);letter-spacing:-.05em;transform:translateX(calc(var(--p,0) * var(--dir,1) * 28vw - 20vw));will-change:transform}
-.gl-row span{color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.08) 55%,rgba(255,255,255,.3));-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1.5px rgba(255,255,255,.7);text-shadow:0 0 28px rgba(160,190,255,.35)}
-body.static .gl-row{transform:translateX(-10vw)}
-#metalGl{position:absolute;inset:0;width:100%;height:100%;display:none;touch-action:pan-y;cursor:crosshair}
-.glass-cap.gl-on #metalGl{display:block}
-.glass-cap.gl-on .glass-rows,.glass-cap.gl-on .glass-blobs{display:none}

@@ -3,48 +3,47 @@ import { beat } from '../app/beat';
 import { prefersReducedMotion } from '../app/capabilities';
 import './press.css';
 
-/** Recortes de prensa 100 % ficticios: relleno en latín y marca "demostración". Nada se atribuye a SIVLA. */
+/** Recortes con los créditos y colaboraciones reales del perfil de Muso de Siv-La (sin citas ni artículos inventados). */
 const P = 1200; // perspectiva (px)
 type Kind = 'news' | 'mag' | 'strip' | 'doc' | 'clip' | 'poster';
-interface Clip { kind: Kind; x: number; y: number; z: number; rot: number; name?: boolean; v?: number }
+interface Clip { kind: Kind; x: number; y: number; z: number; rot: number; k: string; h: string; s?: string; rows?: [string, string][]; ring?: number }
 const SIZE: Record<Kind, [number, number]> = { news: [520, 680], mag: [420, 560], strip: [560, 200], doc: [460, 600], clip: [340, 260], poster: [640, 800] };
 
-// Los seis primeros llevan el nombre y se visitan en este orden; el último es el cartel final.
+// Los seis primeros llevan el nombre ({n}) y se visitan en este orden; el sexto es el cartel final.
 const CLIPS: Clip[] = [
-  { kind: 'news', x: -820, y: -120, z: 0, rot: -4, name: true },
-  { kind: 'clip', x: 330, y: -560, z: -100, rot: -7, name: true },
-  { kind: 'doc', x: -420, y: 560, z: -150, rot: 3, name: true },
-  { kind: 'strip', x: 680, y: 260, z: -80, rot: -3, name: true },
-  { kind: 'mag', x: 700, y: -330, z: 0, rot: 5, name: true },
-  { kind: 'poster', x: 0, y: 0, z: 0, rot: 0, name: true },
-  { kind: 'clip', x: -1250, y: 380, z: -250, rot: 6, v: 1 },
-  { kind: 'news', x: 1250, y: -100, z: -220, rot: 5, v: 1 },
-  { kind: 'strip', x: -300, y: -620, z: -150, rot: -4, v: 1 },
-  { kind: 'mag', x: 1150, y: 560, z: -300, rot: -6, v: 1 },
-  { kind: 'doc', x: -1300, y: -560, z: -200, rot: -5, v: 1 },
-  { kind: 'clip', x: 60, y: 640, z: -60, rot: 2, v: 1 },
+  { kind: 'news', x: -820, y: -120, z: 0, rot: -4, k: 'Productor · 129 créditos', h: 'Producido por {n}', s: 'Historia · Jay Wheeler · 2024', ring: 0 },
+  { kind: 'clip', x: 330, y: -560, z: -100, rot: -7, k: 'Catalina · 2025', h: '{n}: producción, ingeniería y mezcla', s: 'Oliwi • Afro Nigga • Teo' },
+  { kind: 'doc', x: -420, y: 560, z: -150, rot: 3, k: 'Ficha de crédito', h: 'Productor: {n}', rows: [['Título', 'Dividí'], ['Artistas', 'Oliwi • Afro Nigga'], ['Rol', 'Productor'], ['Año', '2025']] },
+  { kind: 'strip', x: 680, y: 260, z: -80, rot: -3, k: 'De locos · 2026', h: '{n} × Mari La Carajita' },
+  { kind: 'mag', x: 700, y: -330, z: 0, rot: 5, k: 'Colaboraciones', h: '{n}', s: 'Jay Wheeler · Oliwi · Afro Nigga · Mari La Carajita' },
+  { kind: 'poster', x: 0, y: 0, z: 0, rot: 0, k: '145 créditos · 256 colaboradores', h: '{n}', s: 'Productor musical · Valencia, Venezuela' },
+  { kind: 'clip', x: -1250, y: 380, z: -250, rot: 6, k: 'Dándote · 2026', h: 'Producción para Sammer y Came Beats', s: 'Productor' },
+  { kind: 'news', x: 1250, y: -100, z: -220, rot: 5, k: 'Productor · 2026', h: 'Pida la bendición', s: 'Mari La Carajita • Manira', ring: 1 },
+  { kind: 'strip', x: -300, y: -620, z: -150, rot: -4, k: 'Perfil de Muso', h: '256 colaboradores' },
+  { kind: 'mag', x: 1150, y: 560, z: -300, rot: -6, k: 'Compositor · 2026', h: 'Primer Amor', s: 'Kobi Cantillo · NOREH · Erick Brian' },
+  { kind: 'doc', x: -1300, y: -560, z: -200, rot: -5, k: 'Créditos por rol', h: 'Roles acreditados', rows: [['Producción', '129'], ['Mezcla', '89'], ['Ingeniería', '21'], ['Masterización', '11'], ['Composición', '5']] },
+  { kind: 'clip', x: 60, y: 640, z: -60, rot: 2, k: 'Con quién ha trabajado', h: 'Jay Wheeler, Oliwi, Afro Nigga, Teo, Mari La Carajita', s: 'Muso.AI' },
 ];
 const SHOTS = 6;
 
-const HEADS = ['CONSECTETUR ADIPISCING ELIT', 'SED DO EIUSMOD TEMPOR', 'UT ENIM AD MINIM VENIAM', 'DUIS AUTE IRURE DOLOR', 'EXCEPTEUR SINT OCCAECAT'];
-const MASTS = ['GACETA DEMO', 'EL DIARIO FICTICIO', 'DAILY PLACEHOLDER', 'REVISTA MUESTRA', 'BOLETÍN DE PRUEBA'];
-
-function rng(seed: number): () => number { let s = seed; return () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
-const lines = (n: number, r: () => number): string => Array.from({ length: n }, () => `<i class="ln" style="width:${(62 + r() * 38).toFixed(0)}%"></i>`).join('');
 const nm = '<span class="nm">SIVLA</span>';
+const rings = (alt: number): string => {
+  const [a, b] = alt ? ['#2F5BEE', '#E08A45'] : ['#E08A45', '#2F5BEE'];
+  const c = Array.from({ length: 9 }, (_, i) => `<circle cx="50" cy="50" r="${6 + i * 5}" fill="none" stroke="${i % 2 ? b : a}" stroke-opacity="${(0.9 - i * 0.07).toFixed(2)}" stroke-width="${i % 2 ? 0.6 : 1.1}"/>`).join('');
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${c}</svg>`;
+};
 
-function markup(c: Clip, idx: number): string {
-  const r = rng(idx * 97 + 13);
-  const mast = MASTS[idx % MASTS.length];
-  const head = HEADS[idx % HEADS.length];
-  const tag = '<em class="demo">Demostración · ficticio</em>';
+function markup(c: Clip): string {
+  const h = c.h.replace('{n}', nm);
+  const rows = c.rows ? `<dl class="rw">${c.rows.map(([a, v]) => `<div><dt>${a}</dt><dd>${v}</dd></div>`).join('')}</dl>` : '';
+  const sub = c.s ? `<p class="sb">${c.s}</p>` : '';
   switch (c.kind) {
-    case 'news': return `<header class="mh">${mast}</header>${tag}<h3 class="hd">${c.name ? `LOREM IPSUM ${nm} DOLOR SIT AMET` : head}</h3><div class="ph"></div><div class="cols">${lines(14, r)}</div>`;
-    case 'mag': return `<div class="mg-top">${mast}</div><div class="mg-name">${c.name ? nm : 'LOREM'}</div><div class="mg-sub">${c.name ? 'Portada de demostración' : head}</div>${tag}`;
-    case 'strip': return `<div class="st-k">${mast}</div><div class="st-h">${c.name ? `${nm} IPSUM` : head}</div>${tag}`;
-    case 'doc': return `<div class="dc-t">EXPEDIENTE DE MUESTRA Nº ${100 + idx}</div>${lines(3, r)}<p class="dc-l">LOREM IPSUM ${c.name ? nm : 'DOLOR'} SIT AMET</p>${lines(6, r)}<i class="rd" style="width:70%"></i>${lines(5, r)}${tag}`;
-    case 'clip': return `<div class="cl-k">${mast}</div><p class="cl-h">${c.name ? `Lorem ${nm} ipsum` : head}</p>${lines(4, r)}${tag}`;
-    case 'poster': return `<div class="po-k">${mast}</div><div class="po-n">${nm}</div><div class="po-s">Cartel de demostración · material ficticio</div>`;
+    case 'news': return `<header class="mh">${c.k}</header><h3 class="hd">${h}</h3>${sub}<div class="ph">${rings(c.ring ?? 0)}</div>`;
+    case 'mag': return `<div class="mg-top">${c.k}</div><div class="mg-name">${h}</div>${sub}`;
+    case 'strip': return `<div class="st-k">${c.k}</div><div class="st-h">${h}</div>`;
+    case 'doc': return `<div class="dc-t">${c.k}</div><p class="dc-l">${h}</p>${rows}`;
+    case 'clip': return `<div class="cl-k">${c.k}</div><p class="cl-h">${h}</p>${sub}`;
+    case 'poster': return `<div class="po-k">${c.k}</div><div class="po-n">${h}</div><div class="po-r">${rings(1)}</div>${sub}`;
   }
 }
 
@@ -65,12 +64,12 @@ export function setupPress(): void {
   // ---- construir el mundo
   const papers: HTMLElement[] = [];
   const anchors: { ax: number; ay: number; w: number }[] = [];
-  CLIPS.forEach((c, i) => {
+  CLIPS.forEach((c) => {
     const [w, h] = SIZE[c.kind];
     const el = document.createElement('div');
     el.className = `pp ${c.kind}`;
     el.style.cssText = `width:${w}px;height:${h}px;left:${-w / 2}px;top:${-h / 2}px;transform:translate3d(${c.x}px,${c.y}px,${c.z}px) rotateZ(${c.rot}deg)`;
-    el.innerHTML = markup(c, i);
+    el.innerHTML = markup(c);
     world.appendChild(el);
     papers.push(el);
   });
@@ -158,9 +157,9 @@ export function setupPress(): void {
     const zc = P * (1 - 1 / p.F);
     world.style.transform = `translateZ(${zc.toFixed(1)}px) rotateZ(${p.roll.toFixed(3)}deg) rotateX(${(py * 3).toFixed(2)}deg) rotateY(${(px * 3).toFixed(2)}deg) translate3d(${(-p.ax).toFixed(1)}px,${(-p.ay).toFixed(1)}px,0)`;
     const b = p.blur + (beat.active ? beat.amt * 1.2 : 0);
-    stage.style.filter = b > 0.3 ? `blur(${b.toFixed(2)}px) brightness(${(1 + 0.15 * cutNear).toFixed(2)})` : '';
+    stage.style.filter = b > 0.3 ? `blur(${b.toFixed(2)}px) saturate(${(1 + 0.2 * cutNear).toFixed(2)})` : '';
     stage.style.transform = beat.active ? `scale(${(1 + beat.amt * 0.012).toFixed(4)})` : '';
-    flash.style.opacity = (cutNear * 0.55).toFixed(2);
+    flash.style.opacity = (cutNear * 0.35).toFixed(2);
     // resaltado editorial en el recorte que se está mirando
     const shot = reduced ? 0 : activeShot(tau);
     const hl = Math.round(p.hl * 20) / 20;
@@ -206,7 +205,6 @@ export function setupPress(): void {
   section.querySelector('#pressListen')?.addEventListener('click', () => (document.querySelector('.listen-btn') as HTMLButtonElement | null)?.click());
   new IntersectionObserver((es) => es.forEach((e) => {
     visible = e.isIntersecting;
-    document.body.classList.toggle('on-night-press', visible && e.boundingClientRect.top < 60);
     cancelAnimationFrame(raf);
     if (visible && !reduced) { last = performance.now(); raf = requestAnimationFrame(loop); }
   }), { rootMargin: '0px', threshold: [0, 0.01] }).observe(section);
