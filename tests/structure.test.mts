@@ -37,3 +37,13 @@ test('Fase 4: secciones Sound y Works con créditos reales y portadas provisiona
   const works = readFileSync('src/app/works.ts', 'utf8');
   assert.ok(works.includes('PORTADA PENDIENTE'), 'las portadas provisionales deben declararse como tales');
 });
+
+test('Fase 5: About con foto accesible, Contact con tarifas y formulario honesto, menú móvil', () => {
+  const html = readFileSync('index.html', 'utf8');
+  assert.match(html, /<img src="\.\/img\/sivla\.jpg"[^>]*alt="[^"]{20,}"/);
+  assert.ok(existsSync('public/img/sivla.jpg'));
+  for (const t of ['$150', '$50', '$35']) assert.ok(html.includes(t), `falta la tarifa ${t}`);
+  assert.ok(html.includes('id="menuBtn"') && html.includes('aria-controls="sheet"'));
+  const main = readFileSync('src/main.ts', 'utf8');
+  assert.ok(main.includes('todavía no envía correos'), 'el formulario debe decir que no envía');
+});

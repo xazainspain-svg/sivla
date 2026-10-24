@@ -1,6 +1,6 @@
 # SIVLA · Landing
 
-Landing de SIVLA, productor musical. **Estado: Fases 2, 3 y 4: hero 3D "El disco líquido", audio reactivo y secciones Sound y Selected Works.** About y Contact son marcadores (Fase 5).
+Landing de SIVLA, productor musical. **Estado: Fases 2–5: hero 3D "El disco líquido", audio reactivo, Sound, Selected Works, About y Contact.**
 Especificación en `docs/` (dirección creativa, arquitectura, auditoría de referencia y hoja de ruta).
 
 ## Qué hay ahora
@@ -23,6 +23,13 @@ Spotify, YouTube y Muso no entregan audio analizable; hacen falta archivos propi
 - **Selected Works:** los 7 créditos reales de Muso con roles, artistas y año, cada uno enlazado a su canción. Al pasar el cursor aparece una portada que lo sigue (en táctil, miniatura fija).
 - **Portadas:** son **provisionales y originales** (anillos con el título y la leyenda "portada pendiente"). Se sustituirán por las portadas oficiales cuando se aporten los archivos.
 - Con "reducir movimiento" o sin WebGL, Sound se muestra como una sección normal con las tres frases visibles.
+
+## About, Contact y navegación (Fase 5)
+- **About:** foto real (`public/img/sivla.jpg`) con revelado circular y cifras de Muso (145 créditos, 256 colaboradores, 129 como productor, 89 mezclas) que cuentan al entrar.
+- **Contact:** sección nocturna con tarifas (Beats $150–$250, Mix & Mastering $50–$100, Coaching $35/h) que preseleccionan el servicio, y formulario validado.
+- **Formulario sin destino:** no envía correos; copia el mensaje al portapapeles y remite al DM de Instagram @eselsivla. Pendiente decidir el canal real.
+- **Navegación:** menú móvil accesible (Esc, aria-expanded), indicador de sección y cabecera que se invierte sobre Contact.
+- No implementado: el disco reducido en Contact descrito en la arquitectura.
 
 ## Ejecutar (Windows 11, macOS o Linux)
 Requisitos: Node.js 20 o superior y un navegador con WebGL 2.

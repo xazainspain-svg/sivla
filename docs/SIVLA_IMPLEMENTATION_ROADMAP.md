@@ -37,7 +37,7 @@ Código a reutilizar de `sivla-3d` (copiado, no enlazado): `Engine`, `Input`, `Q
 **Entrega:** transición de cámara por el agujero del disco, descomposición en barras, lista de 7 créditos con portada flotante/miniatura táctil, enlaces a Muso.
 **Requiere:** portadas originales (WebP); hasta entonces, marcadores de posición con el título.
 
-### Fase 5 · About, Contact y navegación
+### Fase 5 · About, Contact y navegación — **hecha (formulario sin destino real)**
 **Entrega:** foto real, cifras verificadas, tarifas, formulario, sección invertida, menú móvil, indicador de sección.
 **Requiere:** decidir el canal real de envío del formulario (correo, formulario externo o Instagram). Mientras tanto, mensaje honesto de "demostración".
 

@@ -26,10 +26,15 @@
 
   <header class="nav">
     <a class="logo" href="#hero" aria-label="SIV-LA, inicio">Siv-La</a>
-    <nav aria-label="Principal">
+    <nav class="desk" aria-label="Principal">
       <a href="#sound">Sound</a><a href="#works">Works</a><a href="#about">About</a><a href="#contact">Contact</a>
     </nav>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="sheet">Menú</button>
   </header>
+  <div class="sheet" id="sheet" hidden>
+    <nav aria-label="Menú móvil"><a href="#sound">Sound</a><a href="#works">Works</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <p class="hint">Valencia, Venezuela · @eselsivla</p>
+  </div>
 
   <main>
     <section id="hero" class="hero">
@@ -92,8 +97,60 @@
     </section>
     <div id="peek" aria-hidden="true"></div>
 
-    <section id="about" class="ph"><p class="tag">About</p><h2>Sobre SIVLA</h2><p>Esta sección se construye en la Fase 5.</p></section>
-    <section id="contact" class="ph night"><p class="tag">Contact</p><h2>Colaboremos</h2><p>Esta sección se construye en la Fase 5.</p></section>
+    <section id="about" class="about" aria-labelledby="about-h">
+      <div class="about-grid">
+        <div class="about-copy">
+          <p class="tag">About</p>
+          <h2 id="about-h">Sobre SIVLA</h2>
+          <p class="lede">Siv-La es un productor musical internacional de Valencia, Venezuela. Produce, mezcla y masteriza, y su perfil en Muso suma créditos con Jay Wheeler, Oliwi, Afro Nigga y Mari La Carajita.</p>
+          <dl class="facts">
+            <div><dt>Créditos</dt><dd><b data-to="145">145</b></dd></div>
+            <div><dt>Colaboradores</dt><dd><b data-to="256">256</b></dd></div>
+            <div><dt>Producciones</dt><dd><b data-to="129">129</b></dd></div>
+            <div><dt>Mezclas</dt><dd><b data-to="89">89</b></dd></div>
+          </dl>
+          <p class="src">Cifras del perfil de Siv-La en <a href="https://muso.ai/profile/863d3b69-e9e0-4757-b65e-e7e4a6d9a6f2" target="_blank" rel="noopener">Muso.AI</a>. Texto en borrador, pendiente de aprobación.</p>
+        </div>
+        <figure class="portrait" id="portrait">
+          <img src="./img/sivla.jpg" width="900" height="1200" alt="SIVLA en una azotea de Valencia, con chaqueta de denim, jeans de raya y un monitor de estudio bajo el brazo" loading="lazy" decoding="async" />
+          <figcaption>Valencia, Venezuela</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="contact" class="contact" aria-labelledby="contact-h">
+      <p class="tag">Contact</p>
+      <h2 id="contact-h">¿Tu idea está lista para sonar?</h2>
+      <div class="contact-grid">
+        <div>
+          <h3 class="sr">Servicios y tarifas</h3>
+          <ul class="rates">
+            <li><div><b>Beats</b><span>Producción</span></div><strong>$150 – $250</strong><button type="button" class="pill ghost" data-service="Beat">Pedir beat</button></li>
+            <li><div><b>Mix &amp; Mastering</b><span>Mezcla y masterización</span></div><strong>$50 – $100</strong><button type="button" class="pill ghost" data-service="Mix y Mastering">Pedir mezcla</button></li>
+            <li><div><b>Coaching</b><span>Sesión por hora</span></div><strong>$35 <small>/ hora</small></strong><button type="button" class="pill ghost" data-service="Coaching (por hora)">Reservar hora</button></li>
+          </ul>
+          <p class="note">Precios en dólares. Ingeniería (21 créditos) y composición (5): consúltalo en el formulario.</p>
+        </div>
+        <form id="form" novalidate>
+          <div class="row2">
+            <label for="f-name">Nombre<input id="f-name" name="name" autocomplete="name" required /></label>
+            <label for="f-mail">Email<input id="f-mail" name="email" type="email" autocomplete="email" required /></label>
+          </div>
+          <label for="f-svc">Servicio
+            <select id="f-svc" name="service"><option>Beat</option><option>Mix y Mastering</option><option>Coaching (por hora)</option><option>Otro</option></select>
+          </label>
+          <label for="f-msg">Cuéntame la idea<textarea id="f-msg" name="message" rows="4" required></textarea></label>
+          <button class="pill solid" type="submit">Preparar mensaje</button>
+          <p class="formstatus" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <p class="socials">
+        <a class="pill ghost" href="https://www.instagram.com/eselsivla" target="_blank" rel="noopener">Instagram</a>
+        <a class="pill ghost" href="https://www.tiktok.com/@eselsivla" target="_blank" rel="noopener">TikTok</a>
+        <a class="pill ghost" href="https://muso.ai/profile/863d3b69-e9e0-4757-b65e-e7e4a6d9a6f2" target="_blank" rel="noopener">Muso.AI</a>
+      </p>
+      <footer class="foot"><span>© 2026 Siv-La · Valencia, Venezuela</span><a href="#hero">Volver arriba ↑</a></footer>
+    </section>
   </main>
   <script type="module" src="/src/main.ts"></script>
 </body>

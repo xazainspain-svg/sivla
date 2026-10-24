@@ -105,10 +105,86 @@ function setupWorks(): void {
   requestAnimationFrame(loop);
 }
 
+/** Menú móvil e indicador de sección activa. */
+function setupNav(): void {
+  const btn = document.getElementById('menuBtn') as HTMLButtonElement;
+  const sheet = document.getElementById('sheet') as HTMLElement;
+  const setOpen = (open: boolean) => {
+    sheet.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Cerrar' : 'Menú';
+    body.classList.toggle('menu-open', open);
+    if (open) (sheet.querySelector('a') as HTMLElement | null)?.focus(); else btn.focus({ preventScroll: true });
+  };
+  btn.addEventListener('click', () => setOpen(Boolean(sheet.hidden)));
+  sheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sheet.hidden) setOpen(false); });
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]'));
+  const ids = ['sound', 'works', 'about', 'contact'];
+  const secs = ids.map((id) => document.getElementById(id)).filter((x): x is HTMLElement => !!x);
+  const io = new IntersectionObserver((es) => {
+    es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      links.forEach((l) => l.setAttribute('aria-current', String(l.getAttribute('href') === `#${e.target.id}`)));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach((el) => io.observe(el));
+  // la cabecera se invierte sobre la sección oscura de Contact
+  const contact = document.getElementById('contact');
+  if (contact) {
+    const nio = new IntersectionObserver((es) => es.forEach((e) => body.classList.toggle('on-night', e.isIntersecting)), { rootMargin: '0px 0px -92% 0px' });
+    nio.observe(contact);
+  }
+}
+
+/** About: revelado circular de la foto y cifras que cuentan al entrar. */
+function setupAbout(): void {
+  const portrait = document.getElementById('portrait') as HTMLElement;
+  const nums = Array.from(document.querySelectorAll<HTMLElement>('.facts b'));
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    if (e.target === portrait) { portrait.classList.add('in'); return; }
+    const el = e.target as HTMLElement;
+    const to = Number(el.dataset.to);
+    if (prefersReducedMotion()) return;
+    void tween(1400, easeOutCubic, (v) => { el.textContent = String(Math.round(v * to)); });
+  }), { threshold: 0.35 });
+  io.observe(portrait);
+  nums.forEach((n) => { if (!prefersReducedMotion()) n.textContent = '0'; io.observe(n); });
+}
+
+/** Contact: tarifas que preseleccionan el servicio y formulario honesto (no hay destino real todavía). */
+function setupContact(): void {
+  const form = document.getElementById('form') as HTMLFormElement;
+  const svc = document.getElementById('f-svc') as HTMLSelectElement;
+  const status = document.getElementById('formStatus') as HTMLElement;
+  document.querySelectorAll<HTMLButtonElement>('[data-service]').forEach((b) => b.addEventListener('click', () => {
+    svc.value = b.dataset.service ?? 'Otro';
+    (document.getElementById('f-name') as HTMLElement).focus();
+    status.textContent = `Servicio elegido: ${svc.value}.`;
+  }));
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = (document.getElementById('f-name') as HTMLInputElement).value.trim();
+    const mail = (document.getElementById('f-mail') as HTMLInputElement).value.trim();
+    const msg = (document.getElementById('f-msg') as HTMLTextAreaElement).value.trim();
+    if (!name || !/^\S+@\S+\.\S+$/.test(mail) || !msg) { status.textContent = 'Completa nombre, un email válido y tu mensaje.'; return; }
+    const text = `Hola SIVLA, soy ${name} (${mail}). Me interesa: ${svc.value}.\n${msg}`;
+    let copied = false;
+    try { await navigator.clipboard.writeText(text); copied = true; } catch { copied = false; }
+    status.innerHTML = (copied ? 'Mensaje copiado. ' : 'Copia tu mensaje desde el cuadro de arriba. ')
+      + 'Esta web todavía no envía correos: pégalo en un mensaje directo de <a href="https://www.instagram.com/eselsivla" target="_blank" rel="noopener">Instagram @eselsivla</a>.';
+  });
+}
+
 async function boot(): Promise<void> {
   const reduced = prefersReducedMotion();
   const webgl = hasWebGL2();
   setupWorks();
+  setupNav();
+  setupAbout();
+  setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
   if (!webgl) body.classList.add('still-fallback');
