@@ -27,12 +27,12 @@
   <header class="nav">
     <a class="logo" href="#hero" aria-label="SIV-LA, inicio">Siv-La</a>
     <nav class="desk" aria-label="Principal">
-      <a href="#sound">Sound</a><a href="#works">Works</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a>
+      <a href="#sound">Sound</a><a href="#works">Works</a><a href="#sonic">Inmersivo</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a>
     </nav>
     <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="sheet">Menú</button>
   </header>
   <div class="sheet" id="sheet" hidden>
-    <nav aria-label="Menú móvil"><a href="#sound">Sound</a><a href="#works">Works</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <nav aria-label="Menú móvil"><a href="#sound">Sound</a><a href="#works">Works</a><a href="#sonic">Inmersivo</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
     <p class="hint">Valencia, Venezuela · @eselsivla</p>
   </div>
 
@@ -96,6 +96,23 @@
       <p class="more"><a class="pill" href="https://muso.ai/profile/863d3b69-e9e0-4757-b65e-e7e4a6d9a6f2" target="_blank" rel="noopener">Ver los 145 créditos en Muso <span aria-hidden="true">↗</span></a></p>
     </section>
     <div id="peek" aria-hidden="true"></div>
+
+    <section id="sonic" class="sonic" aria-labelledby="sonic-h">
+      <div class="sonic-stage" id="sonicStage">
+        <canvas id="sonicGl" tabindex="0" aria-label="Paisaje del sonido en 3D: el relieve es el espectro de la canción, con los graves a la izquierda y los agudos a la derecha. Con el teclado, las flechas izquierda y derecha eligen la frecuencia que escuchas y arriba y abajo cambian el ancho del foco."></canvas>
+        <div class="sonic-cursor" id="sonicCur" hidden aria-hidden="true"><span id="sonicCurHz"></span></div>
+        <div class="sonic-top">
+          <p class="tag">Dentro del sonido</p>
+          <h2 id="sonic-h">Recorre la música</h2>
+          <p class="sonic-lede">El relieve es el espectro de la canción: graves a la izquierda, agudos a la derecha. Mueve el cursor y escucharás sólo esa zona.</p>
+        </div>
+        <div class="sonic-bar">
+          <button type="button" class="pill" id="sonicPlay" aria-pressed="false">Entrar en el sonido</button>
+          <p class="sonic-status" id="sonicStatus" role="status" aria-live="polite">En reposo. Pulsa “Entrar en el sonido” para escuchar la canción y recorrer su relieve.</p>
+        </div>
+        <p class="sonic-hint">cursor · enfocar &nbsp;|&nbsp; arrastrar · mirar &nbsp;|&nbsp; arriba/abajo · ancho del foco</p>
+      </div>
+    </section>
 
     <section id="press" class="press" aria-label="Recortes con los créditos y colaboraciones de SIVLA">
       <div class="press-pin">

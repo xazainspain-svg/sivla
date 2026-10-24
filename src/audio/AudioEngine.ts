@@ -22,6 +22,9 @@ export class AudioEngine {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
   private analyser: AnalyserNode | null = null;
+  private dry: GainNode | null = null;
+  private band: BiquadFilterNode | null = null;
+  private bandGain: GainNode | null = null;
   private data = new Uint8Array(512);
   private raw = new Float32Array(BAND_COUNT);
   private smoother = new BandSmoother();
@@ -53,7 +56,13 @@ export class AudioEngine {
       this.analyser.fftSize = 1024;
       this.analyser.smoothingTimeConstant = 0.6;
       this.data = new Uint8Array(this.analyser.frequencyBinCount);
-      this.master.connect(this.analyser);
+      // camino directo + camino de banda: permite "navegar" el espectro (enfocar una zona de frecuencias)
+      this.dry = this.ctx.createGain();
+      this.band = this.ctx.createBiquadFilter();
+      this.band.type = 'bandpass'; this.band.frequency.value = 1000; this.band.Q.value = 2;
+      this.bandGain = this.ctx.createGain(); this.bandGain.gain.value = 0;
+      this.master.connect(this.dry); this.dry.connect(this.analyser);
+      this.master.connect(this.band); this.band.connect(this.bandGain); this.bandGain.connect(this.analyser);
       this.analyser.connect(this.ctx.destination);
     }
     this.master.gain.value = this.volume;
@@ -149,6 +158,19 @@ export class AudioEngine {
       o.connect(fl); fl.connect(g); g.connect(this.master!); o.start(t); o.stop(t + 2.4);
     }));
   }
+
+  /** Enfoca una zona del espectro: `amount` 0 = sonido original, 1 = se escucha sobre todo esa banda. */
+  setFocus(freq: number, amount: number, q: number): void {
+    if (!this.ctx || !this.band || !this.dry || !this.bandGain) return;
+    const t = this.ctx.currentTime, a = Math.max(0, Math.min(1, amount));
+    this.band.frequency.setTargetAtTime(freq, t, 0.04);
+    this.band.Q.setTargetAtTime(q, t, 0.06);
+    this.dry.gain.setTargetAtTime(1 - 0.62 * a, t, 0.09);
+    this.bandGain.gain.setTargetAtTime(1.9 * a, t, 0.09);
+  }
+
+  /** Espectro actual (bytes 0–255) tras el último `update`. */
+  get spectrum(): { data: Uint8Array; sampleRate: number } { return { data: this.data, sampleRate: this.ctx?.sampleRate ?? 44100 }; }
 
   /** Llamar una vez por fotograma. */
   update(dt: number): AudioFrame {

@@ -53,3 +53,8 @@ test('Servicios: tres servicios con los precios reales y enlace en la navegació
   assert.ok(html.includes('id="services"') && html.includes('href="#services"'));
   for (const p of ['$150 – $250', '$50 – $100', '$35']) assert.ok(html.includes(p), p);
 });
+
+test('Dentro del sonido: sección, botón de entrada y navegación', () => {
+  const html = readFileSync('index.html', 'utf8');
+  assert.ok(html.includes('id="sonic"') && html.includes('id="sonicPlay"') && html.includes('href="#sonic"'));
+});

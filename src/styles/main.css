@@ -204,3 +204,23 @@ body.static .mosaic{display:none}
 .svc .pill{align-self:flex-start;border:0;cursor:pointer}
 .svc-note{margin:22px 0 0;font:400 .85rem var(--f);color:var(--mut)}
 @media (max-width:860px){.svc-grid{grid-template-columns:1fr}}
+
+/* Dentro del sonido */
+.sonic{position:relative;z-index:2;background:linear-gradient(180deg,#f6f7fb 0%,#f6f7fb 14%,#e4e8f7 34%,#e4e8f7 100%);color:var(--ink)}
+.sonic-stage{position:relative;height:clamp(560px,100vh,940px);overflow:hidden}
+.sonic-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:crosshair;outline-offset:-4px}
+.sonic-top{position:absolute;left:max(24px,env(safe-area-inset-left));top:clamp(76px,11vh,120px);max-width:min(460px,86vw);pointer-events:none}
+.sonic-top .tag{margin-bottom:6px}
+.sonic-top h2{font:200 clamp(2.4rem,6vw,5rem)/1 var(--f);letter-spacing:-.05em;margin:0 0 12px}
+.sonic-lede{margin:0;color:var(--mut);font-size:1rem;line-height:1.5}
+.sonic-bar{position:absolute;left:max(24px,env(safe-area-inset-left));right:24px;bottom:34px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;pointer-events:none}
+.sonic-bar .pill{pointer-events:auto;border:0;cursor:pointer}
+.sonic-status{margin:0;font:500 .74rem var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:rgba(246,247,251,.78);backdrop-filter:blur(8px);padding:10px 14px;border-radius:999px;max-width:100%}
+.sonic-hint{position:absolute;right:24px;top:84px;margin:0;font:500 .62rem var(--m);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);pointer-events:none;text-align:right}
+.sonic-cursor{position:absolute;left:0;top:0;bottom:0;width:0;pointer-events:none}
+.sonic-cursor[hidden]{display:none}
+.sonic-cursor::before{content:"";position:absolute;left:0;top:30%;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--amber))}
+.sonic-cursor span{position:absolute;left:8px;top:30%;transform:translateY(-100%);font:500 .68rem var(--m);letter-spacing:.14em;background:var(--ink);color:#fff;border-radius:999px;padding:6px 10px;white-space:nowrap}
+.sonic.no-gl .sonic-stage{background:linear-gradient(180deg,#f6f7fb,#e4e8f7)}
+.sonic.no-gl canvas,.sonic.no-gl .sonic-hint{display:none}
+@media (max-width:760px){.sonic-hint{display:none}.sonic-bar{bottom:22px}}

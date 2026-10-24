@@ -10,6 +10,7 @@ import { WORKS, placeholderCover } from './app/works';
 import { MosaicScene } from './scenes/MosaicScene';
 import { setupPress } from './press/press';
 import { beat } from './app/beat';
+import { setupSonic } from './sonic/ui';
 
 const body = document.body;
 const pre = document.getElementById('pre') as HTMLElement;
@@ -60,10 +61,13 @@ function setupAudioUI(engine: Engine | null, animate: boolean): void {
     if (!cached || now - lastT > 4) {
       cached = audio.update(dt); lastT = now;
       beat.active = cached.active; beat.amt = cached.kickAmt * Math.exp(-cached.kickAge * 6); beat.bands.set(cached.bands);
+      if (cached.active) { const sp = audio.spectrum; beat.spec.set(sp.data.subarray(0, 512)); beat.rate = sp.sampleRate; }
+      beat.label = cached.active ? audio.trackLabel : '';
     }
     return cached;
   };
   beat.sample = (dt) => { sample(dt); };
+  beat.setFocus = (f, a, q) => audio.setFocus(f, a, q);
   if (engine) {
     engine.onFrame = (dt, scene) => {
       const f = sample(dt);
@@ -135,7 +139,7 @@ function setupNav(): void {
   sheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sheet.hidden) setOpen(false); });
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]'));
-  const ids = ['sound', 'works', 'services', 'about', 'contact'];
+  const ids = ['sound', 'works', 'sonic', 'services', 'about', 'contact'];
   const secs = ids.map((id) => document.getElementById(id)).filter((x): x is HTMLElement => !!x);
   const io = new IntersectionObserver((es) => {
     es.forEach((e) => {
@@ -229,6 +233,7 @@ async function boot(): Promise<void> {
   setupAbout();
   setupMosaic();
   setupPress();
+  setupSonic();
   setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
