@@ -1,7 +1,7 @@
 import './styles/main.css';
 import { Engine } from './engine/engine';
 import { hasWebGL2, prefersReducedMotion } from './app/capabilities';
-import { easeOutCubic, damp } from './engine/math';
+import { easeOutCubic, damp, clamp } from './engine/math';
 import { tween, wait } from './animation/timeline';
 import { AudioEngine } from './audio/AudioEngine';
 import { TRACKS } from './audio/tracks';
@@ -183,6 +183,24 @@ function setupMosaic(): void {
   }), { rootMargin: '200px 0px' }).observe(canvas);
 }
 
+/** Cápsula de cristal líquido: las filas de SIVLA se desplazan en sentidos opuestos con el scroll. */
+function setupGlass(): void {
+  const cap = document.getElementById('glass');
+  if (!cap || prefersReducedMotion()) return;
+  const rows = Array.from(cap.querySelectorAll<HTMLElement>('.gl-row'));
+  rows.forEach((r) => r.style.setProperty('--dir', r.dataset.dir ?? '1'));
+  let on = false;
+  let ticking = false;
+  const apply = (): void => {
+    ticking = false;
+    const r = cap.getBoundingClientRect();
+    const p = clamp((window.innerHeight - r.top) / (window.innerHeight + r.height), 0, 1);
+    cap.style.setProperty('--p', p.toFixed(4));
+  };
+  new IntersectionObserver((es) => es.forEach((e) => { on = e.isIntersecting; if (on) apply(); })).observe(cap);
+  window.addEventListener('scroll', () => { if (on && !ticking) { ticking = true; requestAnimationFrame(apply); } }, { passive: true });
+}
+
 /** Contact: tarifas que preseleccionan el servicio y formulario honesto (no hay destino real todavía). */
 function setupContact(): void {
   const form = document.getElementById('form') as HTMLFormElement;
@@ -214,6 +232,7 @@ async function boot(): Promise<void> {
   setupNav();
   setupAbout();
   setupMosaic();
+  setupGlass();
   setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
