@@ -1,0 +1,30 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+
+test('estructura del proyecto y documentación de la Fase 1', () => {
+  for (const f of ['index.html', 'src/main.ts', 'src/scenes/DiscScene.ts', 'src/shaders/disc.ts', 'docs/SIVLA_CREATIVE_DIRECTION.md', 'docs/SIVLA_LANDING_ARCHITECTURE.md', 'docs/SIVLA_REFERENCE_AUDIT.md', 'docs/SIVLA_IMPLEMENTATION_ROADMAP.md']) {
+    assert.ok(existsSync(f), `falta ${f}`);
+  }
+});
+
+test('los uniforms del shader del disco coinciden con la escena', () => {
+  const sh = readFileSync('src/shaders/disc.ts', 'utf8');
+  const sc = readFileSync('src/scenes/DiscScene.ts', 'utf8');
+  for (const u of ['uTime', 'uIntro', 'uPointer', 'uForce', 'uPulse', 'uInner', 'uOuter']) {
+    assert.ok(sh.includes(`uniform`) && sh.includes(u), `shader no declara ${u}`);
+    assert.ok(sc.includes(u), `escena no usa ${u}`);
+  }
+});
+
+test('el pulso de reposo está documentado como procedural, no como audio', () => {
+  assert.match(readFileSync('src/shaders/disc.ts', 'utf8'), /NO es una señal de audio/);
+});
+
+test('HTML: wordmark accesible, saltar al contenido y plan B', () => {
+  const html = readFileSync('index.html', 'utf8');
+  assert.ok(html.includes('aria-label="SIVLA"'));
+  assert.ok(html.includes('class="skip"'));
+  assert.ok(html.includes('id="fallback"'));
+  assert.ok(html.includes('<canvas id="gl" aria-hidden="true">'));
+});

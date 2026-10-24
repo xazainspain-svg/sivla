@@ -1,0 +1,23 @@
+{
+  "name": "sivla",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Landing de SIVLA, productor musical: hero 3D \"El disco líquido\" (Three.js + GLSL).",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.mts",
+    "inline": "node scripts/inline.mjs"
+  },
+  "dependencies": {
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}

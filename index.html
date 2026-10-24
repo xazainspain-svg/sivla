@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>SIVLA · Productor musical</title>
+  <meta name="description" content="SIVLA, productor musical internacional de Valencia, Venezuela. Beats, mezcla y mastering." />
+  <meta name="theme-color" content="#F6F7FB" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+</head>
+<body>
+  <a class="skip" href="#sound">Saltar al contenido</a>
+  <div id="pre" aria-hidden="true"><b id="cnt">0</b></div>
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <svg id="fallback" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="fg" cx=".5" cy=".5" r=".5"><stop offset=".15" stop-color="#F6F7FB"/><stop offset="1" stop-color="#cfd6f2"/></radialGradient>
+    </defs>
+    <ellipse cx="200" cy="200" rx="190" ry="120" fill="url(#fg)" transform="rotate(-20 200 200)"/>
+    <g fill="none" stroke="#2F5BEE" stroke-opacity=".35" transform="rotate(-20 200 200)">
+      <ellipse cx="200" cy="200" rx="170" ry="106"/><ellipse cx="200" cy="200" rx="150" ry="93"/><ellipse cx="200" cy="200" rx="130" ry="80"/>
+      <ellipse cx="200" cy="200" rx="110" ry="68"/><ellipse cx="200" cy="200" rx="90" ry="55"/><ellipse cx="200" cy="200" rx="70" ry="43"/>
+    </g>
+  </svg>
+
+  <header class="nav">
+    <a class="logo" href="#hero" aria-label="SIV-LA, inicio">Siv-La</a>
+    <nav aria-label="Principal">
+      <a href="#sound">Sound</a><a href="#works">Works</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <p class="lead"><span class="wd" style="--k:0">Productor</span> <span class="wd" style="--k:1">musical</span> <span class="wd" style="--k:2">internacional.</span> <span class="wd" style="--k:3">Beats,</span> <span class="wd" style="--k:4">mezcla</span> <span class="wd" style="--k:5">y</span> <span class="wd" style="--k:6">mastering</span> <span class="wd" style="--k:7">desde</span> <span class="wd" style="--k:8">Valencia.</span></p>
+      <div class="cta"><a class="pill" href="#sound">Explorar la música <span aria-hidden="true">↓</span></a><p class="hint">scroll para explorar</p></div>
+      <h1 class="wm" aria-label="SIVLA"><span aria-hidden="true"><i style="--k:0">S</i><i style="--k:1">I</i><i style="--k:2">V</i><i style="--k:3">L</i><i style="--k:4">A</i></span></h1>
+    </section>
+
+    <section id="sound" class="ph"><p class="tag">Sound</p><h2>Su universo sonoro</h2><p>Esta sección se construye en la Fase 4.</p></section>
+    <section id="works" class="ph"><p class="tag">Selected Works</p><h2>Producciones seleccionadas</h2><p>Esta sección se construye en la Fase 4.</p></section>
+    <section id="about" class="ph"><p class="tag">About</p><h2>Sobre SIVLA</h2><p>Esta sección se construye en la Fase 5.</p></section>
+    <section id="contact" class="ph night"><p class="tag">Contact</p><h2>Colaboremos</h2><p>Esta sección se construye en la Fase 5.</p></section>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
