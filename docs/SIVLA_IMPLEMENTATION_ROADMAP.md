@@ -27,9 +27,10 @@ Código a reutilizar de `sivla-3d` (copiado, no enlazado): `Engine`, `Input`, `Q
 - `prefers-reduced-motion` y sin WebGL funcionan.
 - Sin audio todavía; el pulso de reposo está etiquetado como procedural.
 
-### Fase 3 · Audio y sincronía
+### Fase 3 · Audio y sincronía — **hecha (con beat de demostración)**
 **Entrega:** `AudioEngine`, `Bands`, detección de bombo, botón "Escuchar", volumen, y la franja de bandas del Hero.
 **Requiere del propietario:** 1–3 audios autorizados de 30–60 s.
+**Estado:** `AudioEngine`, `bands.ts`, detector de bombo, botón, volumen y barras implementados; verificado con un beat sintético original. Pendiente: probar con los temas reales cuando haya audio autorizado.
 **Aceptación:** las bandas siguen el audio de prueba; sin audio, el botón desaparece o muestra un mensaje honesto; el audio nunca arranca solo.
 
 ### Fase 4 · Secciones Sound y Selected Works

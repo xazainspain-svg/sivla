@@ -34,7 +34,16 @@
   <main>
     <section id="hero" class="hero">
       <p class="lead"><span class="wd" style="--k:0">Productor</span> <span class="wd" style="--k:1">musical</span> <span class="wd" style="--k:2">internacional.</span> <span class="wd" style="--k:3">Beats,</span> <span class="wd" style="--k:4">mezcla</span> <span class="wd" style="--k:5">y</span> <span class="wd" style="--k:6">mastering</span> <span class="wd" style="--k:7">desde</span> <span class="wd" style="--k:8">Valencia.</span></p>
-      <div class="cta"><a class="pill" href="#sound">Explorar la música <span aria-hidden="true">↓</span></a><p class="hint">scroll para explorar</p></div>
+      <div class="cta">
+        <button class="pill ghost" id="listen" type="button" aria-pressed="false"><span id="listenLbl">Escuchar</span></button>
+        <a class="pill" href="#sound">Explorar la música <span aria-hidden="true">↓</span></a>
+        <p class="hint">scroll para explorar</p>
+      </div>
+      <div class="audiobar" id="audiobar" hidden>
+        <div class="eq" id="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <label class="vol"><span class="sr">Volumen</span><input id="vol" type="range" min="0" max="1" step="0.01" value="0.7" /></label>
+        <p class="hint" id="audioStatus" role="status" aria-live="polite"></p>
+      </div>
       <h1 class="wm" aria-label="SIVLA"><span aria-hidden="true"><i style="--k:0">S</i><i style="--k:1">I</i><i style="--k:2">V</i><i style="--k:3">L</i><i style="--k:4">A</i></span></h1>
     </section>
 

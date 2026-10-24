@@ -40,6 +40,10 @@ export class DiscScene {
         uPointer: { value: new THREE.Vector2(99, 99) },
         uForce: { value: 0 },
         uPulse: { value: 0 },
+        uBands: { value: new Float32Array(8) },
+        uAudio: { value: 0 },
+        uKickAge: { value: 99 },
+        uKickAmt: { value: 0 },
         uInner: { value: INNER },
         uOuter: { value: OUTER },
       },
@@ -53,6 +57,15 @@ export class DiscScene {
   private makeGeometry(level: QualityLevel): THREE.BufferGeometry {
     const p = PROFILES[level];
     return new THREE.RingGeometry(INNER, OUTER, p.thetaSegments, p.phiSegments);
+  }
+
+  /** Recibe el análisis de audio de este fotograma. */
+  setAudio(bands: Float32Array, kickAge: number, kickAmt: number, active: boolean): void {
+    const u = this.material.uniforms;
+    (u.uBands.value as Float32Array).set(bands);
+    u.uKickAge.value = kickAge;
+    u.uKickAmt.value = kickAmt;
+    u.uAudio.value = damp(u.uAudio.value as number, active ? 1 : 0, 6, 0.016);
   }
 
   /** Comienza la secuencia de entrada. */

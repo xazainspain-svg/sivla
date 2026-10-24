@@ -13,6 +13,8 @@ export class Engine {
   readonly input = new Input();
   readonly quality = new QualityController(2, true);
   scene!: DiscScene;
+  /** Gancho por fotograma (p. ej. análisis de audio). */
+  onFrame?: (dt: number, scene: DiscScene) => void;
   private raf = 0;
   private last = performance.now();
   private elapsed = 0;
@@ -66,6 +68,7 @@ export class Engine {
       this.last = now;
       this.elapsed += dt;
       this.input.update(dt);
+      this.onFrame?.(dt, this.scene);
       this.scene.update(dt, this.elapsed, this.input.state);
       this.renderer.render(this.scene.scene, this.scene.camera);
       const changed = this.quality.push(dt * 1000);

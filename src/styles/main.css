@@ -41,7 +41,7 @@ main{position:relative;z-index:1}
 /* entrada */
 .wd{display:inline-block}
 body.pending .wd{opacity:0;transform:translateY(40px)}
-body.pending .cta{opacity:0;transform:translateY(16px)}
+body.pending .cta,body.pending .audiobar{opacity:0;transform:translateY(16px)}
 body.pending .wm i{transform:translateY(105%)}
 body.pending .nav{opacity:0}
 body.go .wd{animation:up .95s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(2.6s + var(--k)*55ms)}
@@ -60,6 +60,17 @@ body.go .nav{animation:fade 1s ease both;animation-delay:3.2s}
 .ph.night{background:var(--night);color:var(--chalk)}
 .ph.night .tag,.ph.night p:last-child{color:#9aa0c8}
 
+/* audio */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pill.ghost{background:#fff;color:var(--ink);box-shadow:0 6px 10px rgba(14,18,48,.05),0 2px 4px rgba(14,18,48,.05)}
+.pill.ghost:hover{background:var(--cobalt);color:#fff}
+.pill.ghost[aria-pressed="true"]{background:var(--ink);color:#fff}
+.audiobar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 2.5vh}
+.audiobar[hidden]{display:none}
+.eq{display:flex;align-items:flex-end;gap:4px;height:34px}
+.eq i{display:block;width:5px;height:100%;border-radius:3px;background:var(--cobalt);transform-origin:bottom;transform:scaleY(.06);will-change:transform}
+.vol input{width:110px;accent-color:var(--cobalt)}
+.audiobar .hint{max-width:34em}
 @media (max-width:760px){
   .nav nav{display:none}
   #fallback{padding:18vh 4vw 40vh}

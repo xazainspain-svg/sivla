@@ -1,6 +1,6 @@
 # SIVLA · Landing
 
-Landing de SIVLA, productor musical. **Estado: Fase 2, hero 3D "El disco líquido".** El resto de secciones son marcadores (Fases 4 y 5).
+Landing de SIVLA, productor musical. **Estado: Fases 2 y 3: hero 3D "El disco líquido" con audio reactivo.** El resto de secciones son marcadores (Fases 4 y 5).
 Especificación en `docs/` (dirección creativa, arquitectura, auditoría de referencia y hoja de ruta).
 
 ## Qué hay ahora
@@ -10,7 +10,13 @@ Especificación en `docs/` (dirección creativa, arquitectura, auditoría de ref
 - Interacción: el cursor o el dedo inclinan el disco y lo hunden como una gota; el scroll lo desplaza y lo acerca.
 - Calidad adaptativa (3 niveles) según los milisegundos por fotograma; el render se pausa fuera de pantalla y con la pestaña oculta; recuperación de contexto WebGL.
 - Plan B: sin WebGL o con "reducir movimiento" se muestra una pose fija (o una imagen vectorial) y todo el contenido sigue disponible.
-- El pulso del disco en reposo es **procedural**; no está sincronizado con ninguna canción (el audio es la Fase 3).
+- **Audio (Fase 3):** el botón "Escuchar" (nunca arranca solo) reproduce un tema autorizado o, si no hay ninguno, un **beat sintético original de demostración**, y lo analiza con `AnalyserNode` (FFT 1024). Salen 8 bandas (graves en el centro del disco, agudos en el borde) y un detector de bombo que lanza una onda de dentro hacia fuera. Con volumen y estado visibles.
+- El pulso del disco en reposo (sin audio) es **procedural**; no está sincronizado con ninguna canción.
+
+### Cómo añadir audios reales
+1. Copia los previews autorizados (30–60 s, MP3/OGG, ≤ 1,5 MB) a `public/audio/`.
+2. Añádelos en `src/audio/tracks.ts`. Con la lista vacía se usa el beat de demostración y la interfaz lo dice.
+Spotify, YouTube y Muso no entregan audio analizable; hacen falta archivos propios.
 
 ## Ejecutar (Windows 11, macOS o Linux)
 Requisitos: Node.js 20 o superior y un navegador con WebGL 2.
@@ -32,6 +38,7 @@ npm run inline     # dist/sivla.single.html (un único archivo)
 src/engine/       motor, entrada (ratón/tacto/scroll), calidad adaptativa, liberación de recursos
 src/scenes/       DiscScene: el disco líquido
 src/shaders/      GLSL: ruido y shader del disco
+src/audio/        AudioEngine, análisis de bandas, detector de bombo, lista de temas
 src/animation/    utilidades de secuencia
 src/app/          detección de capacidades
 src/styles/       estilos

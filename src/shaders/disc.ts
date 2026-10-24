@@ -5,6 +5,8 @@ import { NOISE_GLSL } from './noise';
  * - Los anillos nacen del centro hacia fuera (uIntro, en segundos) con un destello ámbar en el frente.
  * - El cursor hunde la superficie como una gota y propaga ondas.
  * - uPulse es un pulso de reposo procedural (NO es una señal de audio).
+ * - Con audio activo (uAudio = 1): cada zona radial del disco sigue una de las 8 bandas de frecuencia
+ *   (graves en el centro, agudos en el borde) y cada golpe de bombo lanza una onda de dentro hacia fuera.
  * - Las normales se derivan por diferencias finitas del campo de alturas.
  */
 export const DISC_VERT = /* glsl */ `
@@ -14,6 +16,10 @@ uniform float uIntro;
 uniform vec2 uPointer;
 uniform float uForce;
 uniform float uPulse;
+uniform float uBands[8];
+uniform float uAudio;
+uniform float uKickAge;
+uniform float uKickAmt;
 uniform float uInner;
 uniform float uOuter;
 varying vec3 vNormalW;
@@ -22,6 +28,13 @@ varying float vBirth;
 varying float vRadial;
 
 const float RINGS = 60.0;
+
+float bandAt(float x){
+  float f = clamp(x, 0.0, 1.0) * 7.0;
+  int i = int(floor(f));
+  int j = min(i + 1, 7);
+  return mix(uBands[i], uBands[j], fract(f));
+}
 
 float ringReveal(float idx){
   float delay = idx * 0.026;
@@ -36,12 +49,15 @@ float height(vec2 p){
   float e = ringReveal(idx);
   float ridge = 0.5 + 0.5 * cos(6.2831853 * f);
   float breathe = 1.0 + 0.04 * sin(uTime * 0.38);
-  float h = ridge * 0.085 * e * breathe;
+  float zone = bandAt((r - uInner) / (uOuter - uInner));
+  float h = ridge * 0.085 * (1.0 + uAudio * zone * 1.7) * e * breathe;
   h += gnoise(vec3(p * 0.55, uTime * 0.12)) * 0.12 * e;
   float d = length(p - uPointer);
   h -= uForce * 0.24 * exp(-d * d * 1.3);
   h += uForce * 0.05 * sin(d * 13.0 - uTime * 6.0) * exp(-d * 0.9);
-  h += uPulse * 0.035 * sin(r * 9.0 - uTime * 3.0) * e;
+  h += (1.0 - uAudio) * uPulse * 0.035 * sin(r * 9.0 - uTime * 3.0) * e;
+  float front = uInner + uKickAge * 3.6;
+  h += uAudio * uKickAmt * 0.075 * exp(-pow((r - front) * 2.6, 2.0)) * exp(-uKickAge * 1.6) * e;
   return h + (1.0 - e) * 0.55;
 }
 
@@ -65,6 +81,9 @@ void main(){
 
 export const DISC_FRAG = /* glsl */ `
 uniform float uTime;
+uniform float uAudio;
+uniform float uKickAge;
+uniform float uKickAmt;
 varying vec3 vNormalW;
 varying vec3 vPosW;
 varying float vBirth;
@@ -92,6 +111,7 @@ void main(){
   vec3 col = env * mix(vec3(0.92), film, 0.30 + 0.35 * fres);
   col += fres * vec3(0.18, 0.32, 0.9) * 0.55;
   col += vBirth * vec3(0.88, 0.54, 0.27) * 1.4;
+  col += uAudio * uKickAmt * exp(-uKickAge * 3.0) * vec3(0.88, 0.54, 0.27) * 0.18;
   // el borde exterior se funde con el papel
   col = mix(col, vec3(0.96, 0.97, 0.985), smoothstep(0.96, 1.0, vRadial));
   gl_FragColor = vec4(col, 1.0);
