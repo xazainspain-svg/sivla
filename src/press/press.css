@@ -1,0 +1,59 @@
+/* Recortes de prensa (material de demostración ficticio) */
+.press{position:relative;z-index:2;background:#07070a;color:#111}
+.press-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.press.still .press-pin{position:relative}
+.press-stage{position:absolute;inset:0;perspective:1200px;perspective-origin:50% 50%;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#26231d 0%,#0d0c0b 60%,#050505 100%)}
+.press-world{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
+.press-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.65) 100%)}
+.press-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;mix-blend-mode:screen}
+.press-tag{position:absolute;left:max(16px,env(safe-area-inset-left));bottom:14px;margin:0;font:500 .62rem var(--m);letter-spacing:.18em;text-transform:uppercase;color:#9b9484;max-width:70%}
+.press-hint{position:absolute;left:50%;bottom:48px;transform:translateX(-50%);margin:0;font:500 .68rem var(--m);letter-spacing:.3em;text-transform:uppercase;color:#d8d2c2;transition:opacity .6s}
+.press-end{position:absolute;inset:auto 0 0 0;padding:90px 0 64px;background:linear-gradient(0deg,rgba(5,5,5,.92),rgba(5,5,5,.6) 55%,transparent);text-align:center;opacity:0;color:#f2efe8}
+.press-end p{margin:0 0 18px;font:200 clamp(1rem,2.4vw,1.4rem) var(--f);letter-spacing:.04em}
+.press-end .pill{border:0;cursor:pointer}
+
+/* papel */
+.pp{position:absolute;box-sizing:border-box;padding:22px;overflow:hidden;background:#ebe4d2;color:#1a1814;box-shadow:0 34px 70px rgba(0,0,0,.6),0 3px 6px rgba(0,0,0,.45);backface-visibility:hidden}
+.pp::before{content:"";position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .2 0 0 0 0 .1 0 0 0 .32 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(115deg,rgba(255,255,255,.28),transparent 35%,rgba(0,0,0,.12))}
+.pp::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 49.4%,rgba(0,0,0,.14) 50%,transparent 50.7%),linear-gradient(0deg,transparent 66%,rgba(0,0,0,.08) 66.4%,transparent 67%)}
+.pp .ln{display:block;height:7px;margin:0 0 9px;background:repeating-linear-gradient(90deg,#2b2822 0 5px,transparent 5px 7px);opacity:.55}
+.pp .rd{display:block;height:15px;margin:2px 0 12px;background:#0d0c0a}
+.pp .demo{position:absolute;right:12px;bottom:8px;font:500 9px var(--m);letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#8c3a2e;z-index:2}
+.pp .ph{height:150px;margin:12px 0;background:linear-gradient(160deg,#6b665b,#2a2822);filter:contrast(1.2)}
+.pp .cols{column-count:2;column-gap:18px}
+
+/* nombre + resaltado editorial */
+.nm{position:relative;display:inline-block;white-space:nowrap}
+.nm::before{content:"";position:absolute;inset:8% -3% 4% -3%;z-index:-1;background:rgba(255,206,40,.62);transform-origin:left center;transform:scaleX(var(--hl,0));mix-blend-mode:multiply}
+.nm::after{content:"";position:absolute;inset:-8% -6%;border:3px solid #d3321f;border-radius:3px;opacity:var(--hl,0);transform:scale(calc(1.18 - .18 * var(--hl,0)))}
+.pp{--hl:0}
+
+/* tipos */
+.news{background:#eae3cf}
+.news .mh{font:900 38px/1 "Playfair Display",Georgia,serif;text-align:center;letter-spacing:-.01em;border-bottom:3px double #1a1814;padding-bottom:8px}
+.news .hd{font:900 44px/1.02 "Playfair Display",Georgia,serif;margin:16px 0 0;text-align:left}
+.mag{background:#c9381f;color:#f6efe2}
+.mag .mg-top{font:700 14px var(--m);letter-spacing:.3em}
+.mag .mg-name{font:900 120px/.9 "Hanken Grotesk",Helvetica,sans-serif;letter-spacing:-.06em;margin-top:60px}
+.mag .mg-sub{position:absolute;left:22px;bottom:36px;font:500 12px var(--m);letter-spacing:.18em;text-transform:uppercase}
+.mag .demo{color:#f6efe2}
+.strip{background:#0f0f0f;color:#f4f1e8;display:flex;flex-direction:column;justify-content:center}
+.strip .st-k{font:500 11px var(--m);letter-spacing:.3em;color:#ff5a3c;margin-bottom:6px}
+.strip .st-h{font:800 62px/.95 "Hanken Grotesk",Impact,sans-serif;letter-spacing:-.03em;text-transform:uppercase}
+.strip .demo{color:#ff9a86}
+.doc{background:#e3dfd0;font-family:"IBM Plex Mono",ui-monospace,monospace}
+.doc .dc-t{font:700 13px var(--m);letter-spacing:.2em;border-bottom:2px solid #1a1814;padding-bottom:8px;margin-bottom:16px}
+.doc .dc-l{font:600 28px/1.15 "IBM Plex Mono",monospace;margin:14px 0 18px}
+.clip{background:#efe9d6}
+.clip .cl-k{font:700 11px var(--m);letter-spacing:.2em;border-bottom:1px solid #1a1814;padding-bottom:6px;margin-bottom:8px}
+.clip .cl-h{font:italic 700 30px/1.05 "Playfair Display",Georgia,serif;margin:0 0 10px}
+.poster{background:#0d0c0a;color:#f1ebdc;display:flex;flex-direction:column;justify-content:space-between;padding:34px}
+.poster::before{mix-blend-mode:screen;opacity:.5}
+.poster .po-k{font:500 13px var(--m);letter-spacing:.34em}
+.poster .po-n{font:900 190px/.85 "Playfair Display",Georgia,serif;letter-spacing:-.05em;text-align:center}
+.poster .po-s{font:500 11px var(--m);letter-spacing:.2em;text-transform:uppercase;color:#a99f88}
+.poster .nm::before{mix-blend-mode:screen;background:rgba(255,206,40,.25)}
+
+body.on-night-press .nav{color:var(--chalk)}
+body.on-night-press .logo,body.on-night-press .nav nav a{color:var(--chalk)}
+body.on-night-press .menu-btn{background:transparent;color:var(--chalk);box-shadow:inset 0 0 0 1px #3a4070}

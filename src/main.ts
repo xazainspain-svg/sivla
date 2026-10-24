@@ -9,6 +9,8 @@ import { journeyProgress, stickyProgress, windowOpacity } from './app/scroll';
 import { WORKS, placeholderCover } from './app/works';
 import { MosaicScene } from './scenes/MosaicScene';
 import { MetalScene } from './scenes/MetalScene';
+import { setupPress } from './press/press';
+import { beat } from './app/beat';
 
 const body = document.body;
 const pre = document.getElementById('pre') as HTMLElement;
@@ -54,6 +56,7 @@ function setupAudioUI(engine: Engine | null, animate: boolean): void {
   if (engine) {
     engine.onFrame = (dt, scene) => {
       const f = audio.update(dt);
+      beat.active = f.active; beat.amt = f.kickAmt * Math.exp(-f.kickAge * 6);
       scene.setAudio(f.bands, f.kickAge, f.kickAmt, f.active && animate);
       if (f.active && animate) bars.forEach((b, i) => { b.style.transform = `scaleY(${(0.06 + f.bands[i] * 0.94).toFixed(3)})`; });
     };
@@ -248,6 +251,7 @@ async function boot(): Promise<void> {
   setupAbout();
   setupMosaic();
   setupGlass();
+  setupPress();
   setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
