@@ -10,6 +10,7 @@ import { WORKS, placeholderCover } from './app/works';
 import { MosaicScene } from './scenes/MosaicScene';
 import { setupPress } from './press/press';
 import { beat } from './app/beat';
+import { setupStudio } from './studio/ui';
 
 const body = document.body;
 const pre = document.getElementById('pre') as HTMLElement;
@@ -52,10 +53,21 @@ function setupAudioUI(engine: Engine | null, animate: boolean): void {
     note.textContent = demo ? 'Las barras siguen un beat sintético de demostración.' : `Las barras siguen: ${audio.trackLabel}.`;
   };
   btns.forEach((b) => b.addEventListener('click', toggle));
+  // un único muestreo por fotograma, compartido por el disco del hero y el estudio 3D
+  let lastT = -1;
+  let cached: ReturnType<AudioEngine['update']> | null = null;
+  const sample = (dt: number): NonNullable<typeof cached> => {
+    const now = performance.now();
+    if (!cached || now - lastT > 4) {
+      cached = audio.update(dt); lastT = now;
+      beat.active = cached.active; beat.amt = cached.kickAmt * Math.exp(-cached.kickAge * 6); beat.bands.set(cached.bands);
+    }
+    return cached;
+  };
+  beat.sample = (dt) => { sample(dt); };
   if (engine) {
     engine.onFrame = (dt, scene) => {
-      const f = audio.update(dt);
-      beat.active = f.active; beat.amt = f.kickAmt * Math.exp(-f.kickAge * 6);
+      const f = sample(dt);
       scene.setAudio(f.bands, f.kickAge, f.kickAmt, f.active && animate);
       if (f.active && animate) bars.forEach((b, i) => { b.style.transform = `scaleY(${(0.06 + f.bands[i] * 0.94).toFixed(3)})`; });
     };
@@ -124,7 +136,7 @@ function setupNav(): void {
   sheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sheet.hidden) setOpen(false); });
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]'));
-  const ids = ['sound', 'works', 'services', 'about', 'contact'];
+  const ids = ['sound', 'studio', 'works', 'services', 'about', 'contact'];
   const secs = ids.map((id) => document.getElementById(id)).filter((x): x is HTMLElement => !!x);
   const io = new IntersectionObserver((es) => {
     es.forEach((e) => {
@@ -218,6 +230,7 @@ async function boot(): Promise<void> {
   setupAbout();
   setupMosaic();
   setupPress();
+  setupStudio();
   setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
