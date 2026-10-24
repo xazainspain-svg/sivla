@@ -64,6 +64,3 @@ Las capturas se hacen con Playwright y Chromium a 390, 820 y 1440 px de ancho y 
 
 ## Licencias
 Código propio. Dependencia: three (MIT). Tipografía Hanken Grotesk e IBM Plex Mono (SIL OFL), cargadas desde Google Fonts.
-
-## Estudio 3D explorable (versión clara)
-Sección `#studio` (entre Sound y Works): sala blanca con consola de 16 canales, monitores, tocadiscos, sintetizador, panel de créditos de Muso, rack de mastering y zona de contacto. Arrastra (ratón o dedo en horizontal) para mirar 360°; flechas/+/− con el teclado; "Vista inicial" y "Modo inmersivo". Cada objeto hace algo real (audio, ir a Works, abrir créditos, preseleccionar Mix & Mastering, ir a Contact) y tiene un botón equivalente debajo. Las faders, vúmetros, woofers y el vinilo reaccionan al audio cuando suena. Sin WebGL queda solo la botonera. Código en `src/studio/`.

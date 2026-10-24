@@ -27,12 +27,12 @@
   <header class="nav">
     <a class="logo" href="#hero" aria-label="SIV-LA, inicio">Siv-La</a>
     <nav class="desk" aria-label="Principal">
-      <a href="#sound">Sound</a><a href="#studio">Estudio</a><a href="#works">Works</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a>
+      <a href="#sound">Sound</a><a href="#works">Works</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a>
     </nav>
     <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="sheet">Menú</button>
   </header>
   <div class="sheet" id="sheet" hidden>
-    <nav aria-label="Menú móvil"><a href="#sound">Sound</a><a href="#studio">Estudio</a><a href="#works">Works</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <nav aria-label="Menú móvil"><a href="#sound">Sound</a><a href="#works">Works</a><a href="#services">Servicios</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
     <p class="hint">Valencia, Venezuela · @eselsivla</p>
   </div>
 
@@ -64,41 +64,6 @@
         </div>
         <p class="hint soundnote" id="soundNote">Las barras se mueven con un pulso de reposo. Pulsa "Escuchar" para que sigan el audio.</p>
       </div>
-    </section>
-
-    <section id="studio" class="studio" aria-labelledby="studio-h">
-      <h2 class="sr" id="studio-h">El estudio de SIV-LA, en 3D</h2>
-      <div class="studio-stage" id="studioStage">
-        <canvas id="studioGl" tabindex="0" aria-label="Estudio 3D de SIV-LA. Arrastra para mirar alrededor; las flechas del teclado giran la vista y + y - acercan o alejan. Los mismos accesos están en los botones de debajo."></canvas>
-        <p class="studio-load" id="studioLoad" role="status">Cargando el estudio…</p>
-        <div class="studio-intro" aria-hidden="true"><p class="studio-name" id="studioName">SIV-LA</p></div>
-        <button type="button" class="studio-skip" id="studioSkip">Saltar intro</button>
-        <p class="studio-tip" id="studioTip" hidden aria-hidden="true"></p>
-        <p class="studio-hint">Arrastra para mirar alrededor · toca los objetos</p>
-        <div class="studio-ui">
-          <button type="button" id="studioReset" aria-label="Volver a la vista inicial">Vista inicial</button>
-          <button type="button" id="studioZoomOut" aria-label="Alejar">−</button>
-          <button type="button" id="studioZoomIn" aria-label="Acercar">+</button>
-          <button type="button" id="studioFs">Modo inmersivo</button>
-        </div>
-      </div>
-      <div class="studio-below">
-        <p class="studio-nogl">Tu navegador no puede mostrar el estudio 3D. Estos accesos funcionan igual:</p>
-        <ul class="studio-chips" aria-label="Zonas del estudio">
-          <li><button type="button" data-hot="console">Consola · escuchar</button></li>
-          <li><button type="button" data-hot="monitors">Monitores · audio</button></li>
-          <li><button type="button" data-hot="synth">Sintetizador · producciones</button></li>
-          <li><button type="button" data-hot="credits">Créditos</button></li>
-          <li><button type="button" data-hot="mastering">Mix &amp; Mastering</button></li>
-          <li><button type="button" data-hot="contact">Contactar</button></li>
-        </ul>
-      </div>
-      <dialog id="creditsDlg" aria-labelledby="creditsH">
-        <h3 id="creditsH">Créditos en Muso.AI</h3>
-        <ul id="creditsList"></ul>
-        <p class="src">Cada crédito enlaza a su ficha en Muso.AI, la fuente de los datos.</p>
-        <button type="button" id="creditsClose" class="pill ghost">Cerrar</button>
-      </dialog>
     </section>
 
     <section id="works" class="works" aria-labelledby="works-h">

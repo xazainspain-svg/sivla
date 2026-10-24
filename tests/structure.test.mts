@@ -53,9 +53,3 @@ test('Servicios: tres servicios con los precios reales y enlace en la navegació
   assert.ok(html.includes('id="services"') && html.includes('href="#services"'));
   for (const p of ['$150 – $250', '$50 – $100', '$35']) assert.ok(html.includes(p), p);
 });
-
-test('Estudio 3D: sección, accesos accesibles por botón y créditos reales', () => {
-  const html = readFileSync('index.html', 'utf8');
-  assert.ok(html.includes('id="studio"') && html.includes('href="#studio"'));
-  for (const h of ['console', 'monitors', 'synth', 'credits', 'mastering', 'contact']) assert.ok(html.includes(`data-hot="${h}"`), h);
-});

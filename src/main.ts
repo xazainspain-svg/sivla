@@ -10,7 +10,6 @@ import { WORKS, placeholderCover } from './app/works';
 import { MosaicScene } from './scenes/MosaicScene';
 import { setupPress } from './press/press';
 import { beat } from './app/beat';
-import { setupStudio } from './studio/ui';
 
 const body = document.body;
 const pre = document.getElementById('pre') as HTMLElement;
@@ -136,7 +135,7 @@ function setupNav(): void {
   sheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !sheet.hidden) setOpen(false); });
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]'));
-  const ids = ['sound', 'studio', 'works', 'services', 'about', 'contact'];
+  const ids = ['sound', 'works', 'services', 'about', 'contact'];
   const secs = ids.map((id) => document.getElementById(id)).filter((x): x is HTMLElement => !!x);
   const io = new IntersectionObserver((es) => {
     es.forEach((e) => {
@@ -230,7 +229,6 @@ async function boot(): Promise<void> {
   setupAbout();
   setupMosaic();
   setupPress();
-  setupStudio();
   setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
