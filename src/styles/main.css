@@ -216,3 +216,6 @@ body.static .mosaic{display:none}
 .gl-row{display:flex;gap:.35em;white-space:nowrap;width:max-content;font:200 clamp(4rem,12vw,11rem)/.92 var(--f);letter-spacing:-.05em;transform:translateX(calc(var(--p,0) * var(--dir,1) * 28vw - 20vw));will-change:transform}
 .gl-row span{color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.08) 55%,rgba(255,255,255,.3));-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1.5px rgba(255,255,255,.7);text-shadow:0 0 28px rgba(160,190,255,.35)}
 body.static .gl-row{transform:translateX(-10vw)}
+#metalGl{position:absolute;inset:0;width:100%;height:100%;display:none;touch-action:pan-y;cursor:crosshair}
+.glass-cap.gl-on #metalGl{display:block}
+.glass-cap.gl-on .glass-rows,.glass-cap.gl-on .glass-blobs{display:none}
