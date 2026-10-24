@@ -47,3 +47,9 @@ test('Fase 5: About con foto accesible, Contact con tarifas y formulario honesto
   const main = readFileSync('src/main.ts', 'utf8');
   assert.ok(main.includes('todavía no envía correos'), 'el formulario debe decir que no envía');
 });
+
+test('Servicios: tres servicios con los precios reales y enlace en la navegación', () => {
+  const html = readFileSync('index.html', 'utf8');
+  assert.ok(html.includes('id="services"') && html.includes('href="#services"'));
+  for (const p of ['$150 – $250', '$50 – $100', '$35']) assert.ok(html.includes(p), p);
+});
