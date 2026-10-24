@@ -12,4 +12,6 @@ export interface Track {
   src: string;
 }
 
-export const TRACKS: Track[] = [];
+export const TRACKS: Track[] = [
+  { title: 'Canción de SIVLA', artist: 'SIVLA', src: './audio/cancion-sivla.mp3' },
+];

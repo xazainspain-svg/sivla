@@ -16,5 +16,11 @@ if (existsSync(new URL('img/', dist))) {
     html = html.split(`./img/${f}`).join(uri);
   }
 }
+if (existsSync(new URL('audio/', dist))) {
+  for (const f of readdirSync(new URL('audio/', dist)).filter((n) => n.endsWith('.mp3'))) {
+    const uri = `data:audio/mpeg;base64,${readFileSync(new URL(`audio/${f}`, dist)).toString('base64')}`;
+    html = html.split(`./audio/${f}`).join(uri);
+  }
+}
 writeFileSync(new URL('sivla.single.html', dist), html);
 console.log('dist/sivla.single.html', Math.round(html.length / 1024), 'KB');

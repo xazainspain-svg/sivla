@@ -181,3 +181,11 @@ form label{display:grid;gap:7px;font:500 .7rem var(--m);letter-spacing:.14em;tex
   body.pending .wd,body.pending .cta,body.pending .wm i,body.pending .nav{opacity:1;transform:none}
   body.go .wd,body.go .cta,body.go .wm i,body.go .nav{animation:none}
 }
+
+/* Mosaico 3D */
+.mosaic{background:var(--paper);padding:clamp(48px,9vw,110px) max(24px,env(safe-area-inset-left));text-align:center;position:relative;z-index:2}
+.mosaic .tag{margin-bottom:8px}
+.mosaic-stage{width:min(100%,560px);aspect-ratio:3/4;margin:0 auto;touch-action:pan-y}
+.mosaic-stage canvas{width:100%;height:100%;display:block}
+.mosaic-note{font:500 .68rem var(--m);letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin:14px 0 0}
+body.static .mosaic{display:none}

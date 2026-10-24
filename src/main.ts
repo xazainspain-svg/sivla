@@ -7,6 +7,7 @@ import { AudioEngine } from './audio/AudioEngine';
 import { TRACKS } from './audio/tracks';
 import { journeyProgress, stickyProgress, windowOpacity } from './app/scroll';
 import { WORKS, placeholderCover } from './app/works';
+import { MosaicScene } from './scenes/MosaicScene';
 
 const body = document.body;
 const pre = document.getElementById('pre') as HTMLElement;
@@ -154,6 +155,34 @@ function setupAbout(): void {
   nums.forEach((n) => { if (!prefersReducedMotion()) n.textContent = '0'; io.observe(n); });
 }
 
+/** Mosaico 3D de la foto: se crea al acercarse y solo corre mientras es visible. */
+function setupMosaic(): void {
+  const canvas = document.getElementById('mosaicGl') as HTMLCanvasElement | null;
+  const img = document.querySelector<HTMLImageElement>('#portrait img');
+  if (!canvas || !img) return;
+  let scene: MosaicScene | null = null;
+  const stage = canvas.parentElement as HTMLElement;
+  const make = async (): Promise<void> => {
+    try { await img.decode(); } catch { /* la imagen ya está cargada o falló */ }
+    if (!img.naturalWidth) return;
+    scene = new MosaicScene(canvas, img);
+    stage.addEventListener('pointermove', (e) => {
+      const r = canvas.getBoundingClientRect();
+      scene?.setPointer(((e.clientX - r.left) / r.width) * 2 - 1, -(((e.clientY - r.top) / r.height) * 2 - 1));
+    });
+    stage.addEventListener('pointerleave', () => scene?.setPointer(null, null));
+    window.addEventListener('resize', () => scene?.resize());
+    if (visible) scene.start();
+  };
+  let visible = false;
+  let building = false;
+  new IntersectionObserver((es) => es.forEach((e) => {
+    visible = e.isIntersecting;
+    if (visible && !scene && !building) { building = true; void make(); }
+    else if (scene) { if (visible) scene.start(); else scene.stop(); }
+  }), { rootMargin: '200px 0px' }).observe(canvas);
+}
+
 /** Contact: tarifas que preseleccionan el servicio y formulario honesto (no hay destino real todavía). */
 function setupContact(): void {
   const form = document.getElementById('form') as HTMLFormElement;
@@ -184,6 +213,7 @@ async function boot(): Promise<void> {
   setupWorks();
   setupNav();
   setupAbout();
+  setupMosaic();
   setupContact();
 
   // Plan B: sin WebGL, imagen estática y contenido completo
