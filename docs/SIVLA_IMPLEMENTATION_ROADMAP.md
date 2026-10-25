@@ -41,8 +41,12 @@ Código a reutilizar de `sivla-3d` (copiado, no enlazado): `Engine`, `Input`, `Q
 **Entrega:** foto real, cifras verificadas, tarifas, formulario, sección invertida, menú móvil, indicador de sección.
 **Requiere:** decidir el canal real de envío del formulario (correo, formulario externo o Instagram). Mientras tanto, mensaje honesto de "demostración".
 
-### Fase 6 · Pulido y verificación
-**Entrega:** accesibilidad, rendimiento real en dispositivos, SEO básico (títulos, descripción, Open Graph), pruebas visuales, README de despliegue y publicación.
+### Fase 6 · Pulido y verificación — **parcial**
+**Hecho:** SEO básico (título, descripción, Open Graph, JSON-LD de Person con enlaces reales, icono, `<noscript>`), contraste de textos secundarios, saltos de teclado (incluido "Saltar la secuencia de recortes"), controles invisibles fuera del orden de tabulación (`inert`), anillos de foco en formulario y Contact, áreas táctiles de 44 px en enlaces del pie y Spotify, `prefers-reduced-motion` en todas las secciones animadas, README de despliegue, script `npm run artifact`.
+**Pendiente:** medición de fotogramas en dispositivos reales (escritorio y móvil), Lighthouse y lector de pantalla reales, guardar las portadas oficiales dentro del proyecto (hoy se cargan desde Spotify), decidir el destino real del formulario.
+
+### Extras añadidos después del plan original
+Mosaico 3D de la foto, recortes con créditos reales (secuencia cinematográfica con match cuts), servicios, "Dentro del sonido" (paisaje del espectro con foco de frecuencias y recorrido guiado) y canciones de Spotify con portada. Un estudio 3D explorable y una cápsula de metal líquido se probaron y se retiraron a petición del propietario (el estudio sigue en el commit `9ce6948`).
 
 ## 3. Riesgos y limitaciones
 

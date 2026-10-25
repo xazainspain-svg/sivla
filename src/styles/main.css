@@ -162,13 +162,14 @@ body.menu-open .nav{z-index:90}
 form label{display:grid;gap:7px;font:500 .7rem var(--m);letter-spacing:.14em;text-transform:uppercase;color:#9aa0c8}
 .contact input,.contact select,.contact textarea{font:300 1rem var(--f);color:var(--chalk);background:#141a3f;border:1px solid #2a3068;border-radius:16px;padding:14px 16px;width:100%}
 .contact :focus-visible{outline-color:var(--chalk)}
+.contact input:focus-visible,.contact select:focus-visible,.contact textarea:focus-visible{box-shadow:0 0 0 2px var(--chalk)}
 .contact input:focus,.contact select:focus,.contact textarea:focus{outline:none;border-color:var(--amber)}
 .contact textarea{resize:vertical;min-height:110px}
 .formstatus{margin:0;min-height:1.5em;font:400 .85rem var(--f);color:var(--amber)}
 .formstatus a{color:var(--chalk)}
 .socials{display:flex;gap:10px;flex-wrap:wrap;margin:clamp(36px,5vw,64px) 0 0}
 .foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:clamp(48px,7vw,96px);padding-top:20px;border-top:1px solid #272c52;font:500 .72rem var(--m);letter-spacing:.1em;text-transform:uppercase;color:#9aa0c8}
-.foot a{text-decoration:none}
+.foot a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
 @media (max-width:860px){.about-grid,.contact-grid{grid-template-columns:1fr}.rates li{grid-template-columns:1fr auto}.rates .pill{grid-column:1/-1;justify-content:center}.row2{grid-template-columns:1fr}.portrait{max-width:420px}}
 @media (max-width:760px){
   .nav nav.desk{display:none}

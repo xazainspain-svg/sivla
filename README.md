@@ -1,6 +1,6 @@
 # SIVLA · Landing
 
-Landing de SIVLA, productor musical. **Estado: Fases 2–5: hero 3D "El disco líquido", audio reactivo, Sound, Selected Works, About y Contact.**
+Landing de SIVLA, productor musical. **Estado: Fases 2–5 completas y Fase 6 (pulido y accesibilidad) parcial.** Hero 3D "El disco líquido", audio reactivo, Sound, Works, Dentro del sonido, recortes con créditos, Servicios, About, mosaico 3D y Contact.
 Especificación en `docs/` (dirección creativa, arquitectura, auditoría de referencia y hoja de ruta).
 
 ## Qué hay ahora
@@ -67,3 +67,17 @@ Código propio. Dependencia: three (MIT). Tipografía Hanken Grotesk e IBM Plex 
 
 ## Dentro del sonido (`#sonic`)
 Incluye un **recorrido guiado** (subgraves → graves → medios → presencia → aire). Paisaje 3D hecho con el espectro real de la canción (frecuencia en X, tiempo en Z, estilo mapa topográfico). El cursor (o el dedo en horizontal) **enfoca una zona de frecuencias y la hace sonar de verdad**: un filtro de banda en la cadena de audio (`AudioEngine.setFocus`) atenúa el resto, y el relieve se ilumina donde escuchas. Sin audio, dunas en reposo. Código en `src/sonic/`.
+
+## Despliegue
+- **Hosting estático** (Netlify, Vercel, GitHub Pages, Cloudflare Pages…): `npm run build` y publica la carpeta `dist/` tal cual. No necesita servidor.
+- **Un solo archivo**: `npm run inline` genera `dist/sivla.single.html` (JS, CSS, foto y canción incrustados, unos 3 MB).
+- **Artifact de Claude**: `npm run artifact` genera `dist/sivla.artifact.html`.
+- Antes de publicar con dominio propio añade `og:image` (URL absoluta) y `canonical` en `index.html`; no se pusieron porque aún no hay dominio ni imagen de compartir.
+- El formulario **no envía datos**: copia el mensaje y remite a Instagram. Para enviarlos hay que conectar un backend o servicio de formularios en `setupContact` (`src/main.ts`).
+
+## Accesibilidad y rendimiento (Fase 6)
+- Teclado: enlace "Saltar al contenido", orden lógico, foco visible, menú móvil con Esc, "Saltar la secuencia de recortes", el lienzo de "Dentro del sonido" se maneja con flechas.
+- `prefers-reduced-motion`: hero sin entradas animadas, recortes en plano fijo, mosaico oculto, paisaje sonoro en calma.
+- Sin WebGL: hero estático (SVG), paisaje sonoro con mensaje y el botón sigue funcionando.
+- Las escenas WebGL solo corren mientras son visibles y se crean al acercarse; el audio nunca arranca solo.
+- **No verificado**: fotogramas en dispositivos reales, Lighthouse, lector de pantalla, Safari/iOS.

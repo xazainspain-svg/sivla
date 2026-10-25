@@ -153,7 +153,7 @@ export function setupPress(): void {
     tauT = reduced ? 0 : clamp(-pr.top / span, 0, 1) * total;
     tau = reduced ? 0 : damp(tau, tauT, 6, dt);
     px = damp(px, tpx, 3, dt); py = damp(py, tpy, 3, dt);
-    const { p, cutNear } = reduced ? { p: segs[1].at(1), cutNear: 0 } : poseAt(tau);
+    const { p, cutNear } = reduced ? { p: segs[segs.length - 1].at(1), cutNear: 0 } : poseAt(tau);
     const zc = P * (1 - 1 / p.F);
     world.style.transform = `translateZ(${zc.toFixed(1)}px) rotateZ(${p.roll.toFixed(3)}deg) rotateX(${(py * 3).toFixed(2)}deg) rotateY(${(px * 3).toFixed(2)}deg) translate3d(${(-p.ax).toFixed(1)}px,${(-p.ay).toFixed(1)}px,0)`;
     const b = p.blur + (beat.active ? beat.amt * 1.2 : 0);
