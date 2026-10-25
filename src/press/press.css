@@ -49,7 +49,7 @@
 .rw dt{font:500 12px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .rw dd{margin:0;font:300 22px var(--f);letter-spacing:-.02em}
 .clip{background:#fff}
-.clip .cl-k{font:500 11px var(--m);letter-spacing:.2em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid rgba(14,18,48,.2);padding-bottom:8px;margin-bottom:10px}
+.clip .cl-k{font:500 11px var(--m);letter-spacing:.2em;text-transform:uppercase;color:#9a521a;border-bottom:1px solid rgba(14,18,48,.2);padding-bottom:8px;margin-bottom:10px}
 .clip .cl-h{font:300 30px/1.05 var(--f);letter-spacing:-.035em;margin:0}
 .poster{background:var(--chalk);display:flex;flex-direction:column;justify-content:space-between;padding:36px}
 .poster .po-k{font:500 13px var(--m);letter-spacing:.24em;text-transform:uppercase;color:var(--cobalt)}
@@ -57,3 +57,4 @@
 .poster .po-r{position:absolute;left:50%;top:50%;width:560px;height:560px;transform:translate(-50%,-50%);opacity:.5}
 .poster .sb{text-align:center;color:var(--ink);font-size:14px;z-index:1}
 .strip::before,.mag::before{opacity:.45}
+.press-end[inert]{visibility:hidden}

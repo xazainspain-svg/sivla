@@ -58,3 +58,9 @@ test('Dentro del sonido: sección, botón de entrada y navegación', () => {
   const html = readFileSync('index.html', 'utf8');
   assert.ok(html.includes('id="sonic"') && html.includes('id="sonicPlay"') && html.includes('href="#sonic"'));
 });
+
+test('Works: canciones de Spotify con portada y enlace', () => {
+  const works = readFileSync('src/app/works.ts', 'utf8');
+  for (const id of ['7zHZTHScVaGQ7ETXBiuHRH', '3OOkerqs3upJSBXHvlgvrc', '34lrJcxN9PyLB5kMw8BTHF', '26KTjx2syaXcGcMgyPP6VY']) assert.ok(works.includes(id), id);
+  assert.ok(works.includes("title: 'De Locos 2'"));
+});

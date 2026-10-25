@@ -1,4 +1,4 @@
-:root{--paper:#F6F7FB;--ink:#0E1230;--amber:#E08A45;--cobalt:#2F5BEE;--chalk:#F2EFE8;--night:#0A0D24;--mut:#6a6f92;--f:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--m:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+:root{--paper:#F6F7FB;--ink:#0E1230;--amber:#E08A45;--cobalt:#2F5BEE;--chalk:#F2EFE8;--night:#0A0D24;--mut:#5a5f82;--f:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;--m:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 html,body{margin:0;background:var(--paper);color:var(--ink)}
@@ -161,6 +161,7 @@ body.menu-open .nav{z-index:90}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.row2>*{min-width:0}
 form label{display:grid;gap:7px;font:500 .7rem var(--m);letter-spacing:.14em;text-transform:uppercase;color:#9aa0c8}
 .contact input,.contact select,.contact textarea{font:300 1rem var(--f);color:var(--chalk);background:#141a3f;border:1px solid #2a3068;border-radius:16px;padding:14px 16px;width:100%}
+.contact :focus-visible{outline-color:var(--chalk)}
 .contact input:focus,.contact select:focus,.contact textarea:focus{outline:none;border-color:var(--amber)}
 .contact textarea{resize:vertical;min-height:110px}
 .formstatus{margin:0;min-height:1.5em;font:400 .85rem var(--f);color:var(--amber)}
@@ -225,3 +226,11 @@ body.static .mosaic{display:none}
 .sonic.no-gl .sonic-stage{background:linear-gradient(180deg,#f6f7fb,#e4e8f7)}
 .sonic.no-gl canvas,.sonic.no-gl .sonic-hint{display:none}
 @media (max-width:760px){.sonic-hint{display:none}.sonic-bar{bottom:22px}}
+
+/* Portadas oficiales y enlace a Spotify */
+.wth img,#peek img{display:block;width:100%;height:100%;object-fit:cover}
+.worklist li{display:flex;align-items:center;gap:8px}
+.worklist li>.work{flex:1;min-width:0}
+.spot{flex:none;font:500 .7rem var(--m);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink);padding:12px 14px;min-height:44px;display:inline-flex;align-items:center;border-radius:999px;border:1px solid rgba(14,18,48,.18);transition:background .3s,color .3s}
+.spot:hover,.spot:focus-visible{background:var(--ink);color:#fff}
+@media (max-width:760px){.worklist li{flex-wrap:wrap}.worklist li>.work{flex:1 1 100%}.spot{margin:-4px 0 16px 0}}

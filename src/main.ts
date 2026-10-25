@@ -105,8 +105,10 @@ function setupWorks(): void {
   links.forEach((a) => {
     const w = WORKS[Number(a.dataset.i)];
     const svg = placeholderCover(w, Number(a.dataset.i));
-    (a.querySelector('.wth') as HTMLElement).innerHTML = svg;
-    a.addEventListener('pointerenter', () => { peek.innerHTML = svg; peek.classList.add('on'); });
+    // portada oficial (Spotify) si existe; si no carga, se queda la provisional
+    const art = (): string => w.cover ? `<img src="${w.cover}" alt="" width="640" height="640" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.fb" data-fb="${svg.replace(/"/g, '&quot;')}">` : svg;
+    (a.querySelector('.wth') as HTMLElement).innerHTML = art();
+    a.addEventListener('pointerenter', () => { peek.innerHTML = art(); peek.classList.add('on'); });
     a.addEventListener('pointerleave', () => peek.classList.remove('on'));
     a.parentElement?.classList.add('reveal-row');
   });

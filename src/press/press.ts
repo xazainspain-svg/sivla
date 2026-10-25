@@ -172,6 +172,7 @@ export function setupPress(): void {
     const e = reduced ? 1 : clamp((tau - (total - 2.4)) / 1.2, 0, 1);
     end.style.opacity = e.toFixed(2);
     end.style.pointerEvents = e > 0.6 ? 'auto' : 'none';
+    end.toggleAttribute('inert', e <= 0.6);
   };
   // qué recorte lleva el resaltado según el segmento
   const shotStarts: number[] = [];
