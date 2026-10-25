@@ -215,6 +215,7 @@ body.static .mosaic{display:none}
 .sonic-lede{margin:0;color:var(--mut);font-size:1rem;line-height:1.5}
 .sonic-bar{position:absolute;left:max(24px,env(safe-area-inset-left));right:24px;bottom:34px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;pointer-events:none}
 .sonic-bar .pill{pointer-events:auto;border:0;cursor:pointer}
+.sonic-bar .pill.ghost{box-shadow:0 6px 10px rgba(14,18,48,.08)}
 .sonic-status{margin:0;font:500 .74rem var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:rgba(246,247,251,.78);backdrop-filter:blur(8px);padding:10px 14px;border-radius:999px;max-width:100%}
 .sonic-hint{position:absolute;right:24px;top:84px;margin:0;font:500 .62rem var(--m);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);pointer-events:none;text-align:right}
 .sonic-cursor{position:absolute;left:0;top:0;bottom:0;width:0;pointer-events:none}

@@ -18,11 +18,19 @@ export function setupSonic(): void {
   let scene: SonicScene | null = null;
   const coarse = matchMedia('(pointer: coarse)').matches;
 
-  play.addEventListener('click', () => listen()?.click());
+  const tourBtn = $<HTMLButtonElement>('sonicTour');
+  play.addEventListener('click', () => { scene?.stopTour(); listen()?.click(); });
+  tourBtn.addEventListener('click', () => {
+    if (!scene) return;
+    if (scene.touring) { scene.stopTour(); scene.setFocus(scene.focus, false); return; }
+    if (listen()?.getAttribute('aria-pressed') !== 'true') listen()?.click();
+    window.setTimeout(() => scene?.startTour(), 500);
+  });
   const paint = (): void => {
     const on = listen()?.getAttribute('aria-pressed') === 'true';
     play.textContent = on ? 'Pausar' : 'Entrar en el sonido';
     play.setAttribute('aria-pressed', String(on));
+    if (!on) scene?.stopTour();
   };
   const lb = listen();
   if (lb) new MutationObserver(paint).observe(lb, { attributes: true, attributeFilter: ['aria-pressed'] });
@@ -40,7 +48,7 @@ export function setupSonic(): void {
     cur.hidden = false; cur.style.transform = `translateX(${(u * canvas.clientWidth).toFixed(1)}px)`; curHz.textContent = fmt(freqAt(u));
   };
   canvas.addEventListener('pointerdown', (e) => {
-    pressed = true; lx = e.clientX; ly = e.clientY; lastT = performance.now(); canvas.setPointerCapture(e.pointerId);
+    scene?.stopTour(); pressed = true; lx = e.clientX; ly = e.clientY; lastT = performance.now(); canvas.setPointerCapture(e.pointerId);
     if (e.pointerType === 'touch') { touchFocus = true; const p = place(e); scene?.setFocus(p.u, true); showCursor(p.u); } else scene?.begin();
   });
   canvas.addEventListener('pointermove', (e) => {
@@ -48,6 +56,7 @@ export function setupSonic(): void {
     const p = place(e);
     if (e.pointerType === 'touch') { if (pressed) { scene.setFocus(p.u, true); showCursor(p.u); } return; }
     if (pressed) { const now = performance.now(); scene.look(e.clientX - lx, e.clientY - ly, (now - lastT) / 1000); lx = e.clientX; ly = e.clientY; lastT = now; return; }
+    if (scene.touring) return;
     scene.setFocus(p.u, true, p.v); showCursor(p.u);
   });
   const up = (): void => { pressed = false; scene?.end(); if (touchFocus) { touchFocus = false; scene?.setFocus(scene.focus, false); cur.hidden = true; } };
@@ -56,6 +65,7 @@ export function setupSonic(): void {
   let kt = 0;
   canvas.addEventListener('keydown', (e) => {
     if (!scene) return;
+    scene.stopTour();
     const step = e.shiftKey ? 0 : 0.03;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       e.preventDefault();
@@ -74,7 +84,9 @@ export function setupSonic(): void {
     catch { section.classList.add('no-gl'); status.textContent = 'No se pudo iniciar el paisaje 3D.'; return; }
     scene.onFrame = () => {
       const now = performance.now(); if (now - tick < 140 || !scene) return; tick = now;
-      if (!beat.active) status.textContent = 'En reposo. Pulsa “Entrar en el sonido” para escuchar la canción y recorrer su relieve.';
+      tourBtn.textContent = scene.touring ? 'Detener recorrido' : 'Recorrido guiado';
+      if (scene.touring && beat.active) status.textContent = scene.tourLabel;
+      else if (!beat.active) status.textContent = 'En reposo. Pulsa “Entrar en el sonido” para escuchar la canción y recorrer su relieve.';
       else if (scene.engaged) status.textContent = `Escuchas ${fmt(scene.focusHz)} · ${zone(scene.focusHz)} · foco ${scene.width < 0.34 ? 'estrecho' : scene.width < 0.67 ? 'medio' : 'ancho'}`;
       else status.textContent = `Sonando: ${beat.label}. ${coarse ? 'Desliza el dedo en horizontal' : 'Mueve el cursor'} para enfocar una zona.`;
     };

@@ -66,4 +66,4 @@ Las capturas se hacen con Playwright y Chromium a 390, 820 y 1440 px de ancho y 
 Código propio. Dependencia: three (MIT). Tipografía Hanken Grotesk e IBM Plex Mono (SIL OFL), cargadas desde Google Fonts.
 
 ## Dentro del sonido (`#sonic`)
-Paisaje 3D hecho con el espectro real de la canción (frecuencia en X, tiempo en Z, estilo mapa topográfico). El cursor (o el dedo en horizontal) **enfoca una zona de frecuencias y la hace sonar de verdad**: un filtro de banda en la cadena de audio (`AudioEngine.setFocus`) atenúa el resto, y el relieve se ilumina donde escuchas. Sin audio, dunas en reposo. Código en `src/sonic/`.
+Incluye un **recorrido guiado** (subgraves → graves → medios → presencia → aire). Paisaje 3D hecho con el espectro real de la canción (frecuencia en X, tiempo en Z, estilo mapa topográfico). El cursor (o el dedo en horizontal) **enfoca una zona de frecuencias y la hace sonar de verdad**: un filtro de banda en la cadena de audio (`AudioEngine.setFocus`) atenúa el resto, y el relieve se ilumina donde escuchas. Sin audio, dunas en reposo. Código en `src/sonic/`.

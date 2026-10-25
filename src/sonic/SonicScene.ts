@@ -5,6 +5,16 @@ import { beat } from '../app/beat';
 import { TERRAIN_VERT, TERRAIN_FRAG, BEAM_VERT, BEAM_FRAG } from './shaders';
 
 export const F_MIN = 40, F_MAX = 16000;
+export interface Stop { u: number; width: number; label: string }
+/** Recorrido guiado: zonas del espectro, de lo más grave a lo más agudo. Las descripciones son generales, no afirman nada de la mezcla. */
+export const TOUR: Stop[] = [
+  { u: 0.068, width: 0.2, label: 'Subgraves · 60 Hz — la base: más que oírse, se siente' },
+  { u: 0.251, width: 0.25, label: 'Graves · 180 Hz — la zona del bombo y el bajo' },
+  { u: 0.537, width: 0.3, label: 'Medios · 1 kHz — donde viven voces e instrumentos principales' },
+  { u: 0.746, width: 0.3, label: 'Presencia · 3,5 kHz — claridad y ataque' },
+  { u: 0.921, width: 0.4, label: 'Aire · 10 kHz — brillo y espacio' },
+];
+const HOLD = 6.5, MOVE = 1.8;
 export const freqAt = (u: number): number => F_MIN * Math.pow(F_MAX / F_MIN, clamp(u, 0, 1));
 const FOG = new THREE.Color(0xe4e8f7);
 
@@ -34,6 +44,7 @@ export class SonicScene {
   private readonly calm: boolean;
   private lastFocusSent = 0;
   onFrame: (() => void) | null = null;
+  touring = false; tourLabel = ''; private tourT = 0; private tourK = 0;
 
   constructor(private readonly canvas: HTMLCanvasElement, opts: { mobile: boolean; reduced: boolean }) {
     this.cols = opts.mobile ? 128 : 192; this.rows = opts.mobile ? 96 : 128;
@@ -103,6 +114,8 @@ export class SonicScene {
   setFocus(u: number, engaged: boolean, width?: number): void {
     this.focus = clamp(u, 0, 1); this.engaged = engaged; if (width !== undefined) this.width = clamp(width, 0, 1);
   }
+  startTour(): void { this.touring = true; this.tourT = 0; }
+  stopTour(): void { this.touring = false; this.tourLabel = ''; }
   get focusHz(): number { return freqAt(this.focus); }
   get q(): number { return lerp(9, 1.2, this.width); }
 
@@ -128,6 +141,17 @@ export class SonicScene {
     this.acc += dt * this.rowRate;
     while (this.acc >= 1) { this.acc -= 1; this.pushRow(); }
     this.u.uFrac.value = this.acc; this.u.uTime.value = this.time;
+    if (this.touring) {
+      this.tourT += dt;
+      const seg = HOLD + MOVE, i = Math.floor(this.tourT / seg);
+      if (i >= TOUR.length) this.stopTour();
+      else {
+        const a = TOUR[i], b = TOUR[Math.min(i + 1, TOUR.length - 1)], k = clamp((this.tourT - i * seg - HOLD) / MOVE, 0, 1), e = k * k * (3 - 2 * k);
+        this.focus = lerp(a.u, b.u, e); this.width = lerp(a.width, b.width, e); this.engaged = true;
+        this.tourLabel = (e < 0.5 ? a : b).label;
+      }
+    }
+    this.tourK = damp(this.tourK, this.touring ? 1 : 0, 2.5, dt);
     this.focusSm = damp(this.focusSm, this.focus, 12, dt);
     this.engSm = damp(this.engSm, this.engaged ? 1 : 0, 6, dt);
     const lvl = beat.active ? clamp(this.level * 2.2, 0, 1) : 0.15;
@@ -145,8 +169,8 @@ export class SonicScene {
     if (!this.dragging) { this.ty += this.vy * dt; this.vy = damp(this.vy, 0, 3, dt); this.ty = damp(this.ty, 0, 0.5, dt); this.tp = damp(this.tp, 0, 0.6, dt); }
     this.yaw = damp(this.yaw, this.ty, 7, dt); this.pitch = damp(this.pitch, this.tp, 7, dt);
     const bob = this.calm ? 0 : Math.sin(this.time * 0.5) * 0.12;
-    this.camera.position.set(Math.sin(this.time * 0.17) * (this.calm ? 0 : 0.8) + (this.focusSm - 0.5) * 3, 3.0 + bob, 14);
-    this.camera.rotation.order = 'YXZ'; this.camera.rotation.set(-0.34 + this.pitch, this.yaw - (this.focusSm - 0.5) * 0.12, 0);
+    this.camera.position.set(Math.sin(this.time * 0.17) * (this.calm ? 0 : 0.8) + (this.focusSm - 0.5) * lerp(3, 11, this.tourK), 3.0 - 0.7 * this.tourK + bob, 14 - 3.5 * this.tourK);
+    this.camera.rotation.order = 'YXZ'; this.camera.rotation.set(-0.34 + 0.05 * this.tourK + this.pitch, this.yaw - (this.focusSm - 0.5) * 0.12 * (1 - this.tourK) + (this.focusSm - 0.5) * 0.35 * this.tourK, 0);
     const fov0 = this.camera.aspect < 0.8 ? 74 : 58, fov = fov0 + (beat.active && !this.calm ? beat.amt * 2.2 : 0);
     if (Math.abs(this.camera.fov - fov) > 0.02) { this.camera.fov = fov; this.camera.updateProjectionMatrix(); }
     // polvo: avanza hacia la cámara con el flujo
