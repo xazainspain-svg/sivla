@@ -82,3 +82,7 @@ Incluye un **recorrido guiado** (subgraves → graves → medios → presencia �
 - Sin WebGL: hero estático (SVG), paisaje sonoro con mensaje y el botón sigue funcionando.
 - Las escenas WebGL solo corren mientras son visibles y se crean al acercarse; el audio nunca arranca solo.
 - **No verificado**: fotogramas en dispositivos reales, Lighthouse, lector de pantalla, Safari/iOS.
+
+## Enlace para compartir
+- **Copia lista en un archivo**: `share/sivla.html` (se regenera con `npm run inline`).
+- **GitHub Pages**: el flujo `.github/workflows/pages.yml` publica `dist/` en cada push. Se activa una sola vez en *Settings → Pages → Source: GitHub Actions*; la web queda en `https://xazainspain-svg.github.io/sivla/`.
