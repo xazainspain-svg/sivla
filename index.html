@@ -19,7 +19,22 @@
 </head>
 <body>
   <a class="skip" href="#sound">Saltar al contenido</a>
-  <div id="pre" aria-hidden="true"><b id="cnt">0</b></div>
+  <div id="pre" aria-hidden="true">
+    <svg class="logo-build" viewBox="0 0 740 170" focusable="false">
+      <g class="lb-rings" transform="translate(90 85)">
+        <circle r="66" pathLength="1" class="r r1"/><circle r="52" pathLength="1" class="r r2"/><circle r="38" pathLength="1" class="r r3"/><circle r="25" pathLength="1" class="r r4"/><circle r="12" pathLength="1" class="r r5"/>
+        <circle r="3.5" class="dot"/>
+      </g>
+      <g class="lb-letters">
+        <path pathLength="1" class="l l1" d="M 288 58 C 280 34, 222 32, 222 64 C 222 94, 290 82, 290 110 C 290 142, 226 140, 218 112"/>
+        <path pathLength="1" class="l l2" d="M 332 35 L 332 135"/>
+        <path pathLength="1" class="l l3" d="M 372 35 L 420 135 L 468 35"/>
+        <path pathLength="1" class="l l4" d="M 512 35 L 512 135 L 574 135"/>
+        <path pathLength="1" class="l l5" d="M 604 135 L 652 35 L 700 135 M 622 101 L 682 101"/>
+      </g>
+    </svg>
+    <b id="cnt">0</b>
+  </div>
   <canvas id="gl" aria-hidden="true"></canvas>
   <svg id="fallback" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
     <defs>
@@ -74,10 +89,12 @@
       </div>
     </section>
 
-    <section id="works" class="works" aria-labelledby="works-h">
+    <section id="works" class="works wk" aria-labelledby="works-h">
       <p class="tag">Selected Works</p>
       <h2 id="works-h">Producciones seleccionadas</h2>
       <p class="sub">Créditos del perfil de Siv-La en Muso y canciones de Spotify. Las portadas oficiales vienen de Spotify; donde no las hay, la portada es provisional.</p>
+      <div class="wk-grid">
+      <div class="wk-stage" id="wkStage" aria-hidden="true"><div class="wk-tilt" id="wkTilt"></div><p class="wk-cap" id="wkCap"></p></div>
       <ul class="worklist" id="worklist">
       <li><a class="work" href="https://muso.ai/track/e29e5c91-039a-493c-a4af-44567e396dd2" target="_blank" rel="noopener" data-i="0" aria-label="Historia, Jay Wheeler, 2024. Abrir en Muso (nueva pestaña)">
         <span class="wt">Historia</span><span class="wm2">producer<br>Jay Wheeler</span><span class="wy">2024</span><span class="wth" aria-hidden="true"></span>
@@ -104,6 +121,7 @@
         <span class="wt">De Locos 2</span><span class="wm2">crédito por confirmar<br>Mari La Carajita • Neeus</span><span class="wy">2026</span><span class="wth" aria-hidden="true"></span>
       </a></li>
       </ul>
+      </div>
       <p class="more"><a class="pill" href="https://muso.ai/profile/863d3b69-e9e0-4757-b65e-e7e4a6d9a6f2" target="_blank" rel="noopener">Ver los 145 créditos en Muso <span aria-hidden="true">↗</span></a></p>
     </section>
     <div id="peek" aria-hidden="true"></div>

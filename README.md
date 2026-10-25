@@ -78,6 +78,7 @@ Incluye un **recorrido guiado** (subgraves → graves → medios → presencia �
 ## Accesibilidad y rendimiento (Fase 6)
 - Teclado: enlace "Saltar al contenido", orden lógico, foco visible, menú móvil con Esc, "Saltar la secuencia de recortes", el lienzo de "Dentro del sonido" se maneja con flechas.
 - `prefers-reduced-motion`: hero sin entradas animadas, recortes en plano fijo, mosaico oculto, paisaje sonoro en calma.
+- Carga inicial: el logo SIVLA se dibuja solo (anillos cobalto y ámbar y luego las letras, ~2,7 s; un clic lo acelera; con reducir movimiento no aparece).
 - Sin WebGL: hero estático (SVG), paisaje sonoro con mensaje y el botón sigue funcionando.
 - Las escenas WebGL solo corren mientras son visibles y se crean al acercarse; el audio nunca arranca solo.
 - **No verificado**: fotogramas en dispositivos reales, Lighthouse, lector de pantalla, Safari/iOS.

@@ -97,34 +97,70 @@ function setupJourney(engine: Engine | null): void {
   requestAnimationFrame(frame);
 }
 
-/** Lista de producciones: portadas provisionales, vista previa que sigue al cursor y aparición progresiva. */
+/** Works: escenario con la portada activa (funda + vinilo que asoma y gira) que cambia al pasar, enfocar o hacer scroll por la lista. */
 function setupWorks(): void {
+  const section = document.getElementById('works') as HTMLElement;
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.work'));
-  const peek = document.getElementById('peek') as HTMLElement;
-  let tx = -999, ty = -999, px = -999, py = -999;
-  links.forEach((a) => {
-    const w = WORKS[Number(a.dataset.i)];
-    const svg = placeholderCover(w, Number(a.dataset.i));
+  const tilt = document.getElementById('wkTilt') as HTMLElement;
+  const stage = document.getElementById('wkStage') as HTMLElement;
+  const cap = document.getElementById('wkCap') as HTMLElement;
+  const art = (i: number): string => {
+    const w = WORKS[i];
+    const svg = placeholderCover(w, i);
     // portada oficial (Spotify) si existe; si no carga, se queda la provisional
-    const art = (): string => w.cover ? `<img src="${w.cover}" alt="" width="640" height="640" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.fb" data-fb="${svg.replace(/"/g, '&quot;')}">` : svg;
-    (a.querySelector('.wth') as HTMLElement).innerHTML = art();
-    a.addEventListener('pointerenter', () => { peek.innerHTML = art(); peek.classList.add('on'); });
-    a.addEventListener('pointerleave', () => peek.classList.remove('on'));
+    return w.cover ? `<img src="${w.cover}" alt="" width="640" height="640" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.fb" data-fb="${svg.replace(/"/g, '&quot;')}">` : svg;
+  };
+  const items = WORKS.map((_, i) => {
+    const el = document.createElement('div');
+    el.className = 'wk-item';
+    el.innerHTML = `<div class="wk-vslide"><div class="wk-vinyl"><i></i></div></div><div class="wk-sleeve">${art(i)}<span class="wk-sheen"></span></div>`;
+    tilt.appendChild(el);
+    return el;
+  });
+  let active = -1;
+  let lockUntil = 0;
+  const pad = (n: number): string => String(n).padStart(2, '0');
+  const setActive = (i: number): void => {
+    if (i === active || i < 0) return;
+    active = i;
+    items.forEach((el, k) => el.classList.toggle('on', k === i));
+    links.forEach((a, k) => a.parentElement?.classList.toggle('act', k === i));
+    const w = WORKS[i];
+    cap.textContent = `${pad(i + 1)} / ${pad(WORKS.length)} · ${w.title} · ${w.year}`;
+  };
+  links.forEach((a, k) => {
+    const i = Number(a.dataset.i);
+    (a.querySelector('.wth') as HTMLElement).innerHTML = art(i);
+    const n = document.createElement('span');
+    n.className = 'wn'; n.setAttribute('aria-hidden', 'true'); n.textContent = pad(k + 1);
+    a.prepend(n);
+    const hit = (): void => { lockUntil = performance.now() + 700; setActive(i); };
+    a.addEventListener('pointerenter', hit);
+    a.addEventListener('focus', hit);
     a.parentElement?.classList.add('reveal-row');
   });
-  window.addEventListener('pointermove', (e) => { tx = e.clientX; ty = e.clientY; });
+  section.classList.add('js-wk');
+  setActive(0);
+  // la fila que cruza el centro de la pantalla pasa a ser la activa
+  const mid = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting || performance.now() < lockUntil) return;
+    const idx = links.findIndex((a) => a.parentElement === e.target);
+    if (idx >= 0) setActive(Number(links[idx].dataset.i));
+  }), { rootMargin: '-45% 0px -45% 0px' });
+  links.forEach((a) => a.parentElement && mid.observe(a.parentElement));
+  // inclinación 3D del escenario con el cursor
+  stage.parentElement?.addEventListener('pointermove', (e) => {
+    const r = stage.getBoundingClientRect();
+    const x = clamp01((e.clientX - r.left) / r.width), y = clamp01((e.clientY - r.top) / r.height);
+    tilt.style.setProperty('--ry', `${((x - 0.5) * 16).toFixed(2)}deg`);
+    tilt.style.setProperty('--rx', `${((0.5 - y) * 12).toFixed(2)}deg`);
+    tilt.style.setProperty('--mx', `${(x * 100).toFixed(0)}%`);
+  });
+  stage.parentElement?.addEventListener('pointerleave', () => { tilt.style.setProperty('--ry', '0deg'); tilt.style.setProperty('--rx', '0deg'); });
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.2 });
   links.forEach((a) => a.parentElement && io.observe(a.parentElement));
-  const loop = () => {
-    if (peek.classList.contains('on')) {
-      px += (tx - px) * 0.18; py += (ty - py) * 0.18;
-      const w = peek.offsetWidth;
-      peek.style.transform = `translate(${Math.min(Math.max(px + 28, 8), innerWidth - w - 8)}px,${Math.min(Math.max(py - w / 2, 8), innerHeight - w - 8)}px) scale(1) rotate(${((tx - px) * 0.05).toFixed(2)}deg)`;
-    } else { px = tx; py = ty; }
-    requestAnimationFrame(loop);
-  };
-  requestAnimationFrame(loop);
 }
+const clamp01 = (v: number): number => Math.min(1, Math.max(0, v));
 
 /** Menú móvil e indicador de sección activa. */
 function setupNav(): void {
@@ -227,6 +263,7 @@ function setupContact(): void {
   });
 }
 
+
 async function boot(): Promise<void> {
   const reduced = prefersReducedMotion();
   const webgl = hasWebGL2();
@@ -267,7 +304,16 @@ async function boot(): Promise<void> {
   engine.start();
 
   // contador de carga (mínimo 1,1 s para que se perciba la entrada)
-  await tween(1100, easeOutCubic, (v) => { cnt.textContent = String(Math.round(v * 100)); });
+  // el logo se construye en ~2,7 s; un clic lo acelera
+  let skip = false;
+  pre.addEventListener('click', () => { skip = true; pre.classList.add('fast'); }, { once: true });
+  const t0 = performance.now();
+  while (!skip && performance.now() - t0 < 2700) {
+    cnt.textContent = String(Math.min(100, Math.round(((performance.now() - t0) / 2700) * 100)));
+    await wait(40);
+  }
+  cnt.textContent = '100';
+  if (skip) await wait(120);
   pre.classList.add('done');
   body.classList.remove('pending');
   body.classList.add('go');
