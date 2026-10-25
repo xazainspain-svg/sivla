@@ -35,7 +35,7 @@ test('Fase 4: secciones Sound y Works con créditos reales y portadas provisiona
   const links = html.match(/https:\/\/muso\.ai\/track\//g) ?? [];
   assert.equal(links.length, 7, 'deben ser 7 créditos con enlace a Muso');
   const works = readFileSync('src/app/works.ts', 'utf8');
-  assert.ok(works.includes('PORTADA PENDIENTE'), 'las portadas provisionales deben declararse como tales');
+  assert.ok(works.includes('placeholderCover'), 'debe existir una portada de respaldo original');
 });
 
 test('Fase 5: About con foto accesible, Contact con tarifas y formulario honesto, menú móvil', () => {

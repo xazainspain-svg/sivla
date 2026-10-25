@@ -259,7 +259,7 @@ function setupContact(): void {
     let copied = false;
     try { await navigator.clipboard.writeText(text); copied = true; } catch { copied = false; }
     status.innerHTML = (copied ? 'Mensaje copiado. ' : 'Copia tu mensaje desde el cuadro de arriba. ')
-      + 'Esta web todavía no envía correos: pégalo en un mensaje directo de <a href="https://www.instagram.com/eselsivla" target="_blank" rel="noopener">Instagram @eselsivla</a>.';
+      + 'Esta web todavía no envía correos: pégalo en un mensaje directo de <a href="https://ig.me/m/eselsivla" target="_blank" rel="noopener">Instagram @eselsivla</a>.';
   });
 }
 
